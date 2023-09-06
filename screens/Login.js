@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
             alert(error);
             console.log(error);
         }
-        if (isAuthenticated) {
+        if (isAuthenticated === true) {
             alert("Login Successful!");
             navigation.navigate("Home")
         }

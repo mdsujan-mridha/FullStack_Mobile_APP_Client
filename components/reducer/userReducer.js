@@ -21,7 +21,7 @@ export const userReducer = (state = { user: {} }, action) => {
         case LOAD_USER_REQUEST:
             return {
                 loading: true,
-                isAuthenticated: false,
+                isAuthenticated: false
             }
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
@@ -44,7 +44,9 @@ export const userReducer = (state = { user: {} }, action) => {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
+                user: null,
                 error: action.payload,
+
             }
         case LOAD_USER_FAIL:
             return {

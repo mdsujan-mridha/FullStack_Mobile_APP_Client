@@ -55,7 +55,7 @@ const Register = () => {
             alert(error);
 
         }
-        if (isAuthenticated) {
+        if (isAuthenticated === true) {
             alert("You are logged in!")
         }
     }, [error, isAuthenticated])

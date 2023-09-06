@@ -10,15 +10,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from './components/action/userAction';
 import Loader from './components/Layout/Loader';
 
+const Stack = createNativeStackNavigator();
 const Parent = () => {
-    const dispatch = useDispatch();
-    const { loading, isAuthenticated } = useSelector((state) => state.user);
+    const dispatch = useDispatch()
+    
+
 
     useEffect(() => {
-        dispatch(loadUser())
+     dispatch(loadUser())
     }, [dispatch])
 
-    const Stack = createNativeStackNavigator();
+    const { loading, isAuthenticated } = useSelector((state) => state.user);
+    
     return (
         loading ? <Loader />
             :
