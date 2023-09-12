@@ -9,6 +9,7 @@ import Footer from './components/Layout/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from './components/action/userAction';
 import Loader from './components/Layout/Loader';
+import Profile from './screens/Profile';
 
 const Stack = createNativeStackNavigator();
 const Parent = () => {
@@ -30,6 +31,7 @@ const Parent = () => {
                     <Stack.Screen name='Home' component={Home} />
                     <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
                     <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
+                    <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
                 </Stack.Navigator>
                 {isAuthenticated && <Footer />}
             </NavigationContainer>

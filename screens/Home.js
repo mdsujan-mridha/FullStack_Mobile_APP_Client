@@ -14,7 +14,7 @@ const fakeData = [
   {
     id: 1,
     img: image1,
-    title: 'Cookie',
+    title: 'Chocolate Fondue',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
     location: 'Dhanmondhi'
@@ -23,28 +23,28 @@ const fakeData = [
   {
     id: 2,
     img: image2,
-    title: 'Cookie',
+    title: 'Hamburger',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 20,
-    location: 'Dhanmondhi'
+    price: 30,
+    location: 'Uttara'
 
   },
   {
     id: 3,
     img: image3,
-    title: 'Cookie',
+    title: 'Caesar Salad',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 20,
+    price: 50,
     location: 'Dhanmondhi'
 
   },
   {
     id: 4,
     img: image4,
-    title: 'Cookie',
+    title: 'Falafel',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
-    location: 'Dhanmondhi'
+    location: 'Mirpur 12'
 
   },
   {
@@ -53,13 +53,13 @@ const fakeData = [
     title: 'Cookie',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
-    location: 'Dhanmondhi'
+    location: 'Kalabagan'
 
   },
   {
     id: 6,
     img: image6,
-    title: 'Cookie',
+    title: 'Moussaka',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
     location: 'Dhanmondhi'
@@ -128,12 +128,13 @@ const Home = () => {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontSize: 35,
+                    fontSize: 25,
                     fontWeight: 700,
                     marginLeft: 0,
+                    marginRight: 5
 
                   }}
-                > Cookie </Text>
+                > {item?.title} </Text>
                 <Text
                   style={{
                     textAlign: 'justify',
@@ -144,12 +145,12 @@ const Home = () => {
 
                   }}
                 >
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?
+                  {item?.desc}
                 </Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                  <Text style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}> <Text> <Icon name='tags' size={20} color="#808080" ></Icon> </Text>  <Text> Free  </Text>  </Text>
+                  <Text style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}> <Text> <Icon name='tags' size={20} color="#808080" ></Icon> </Text>  <Text> {item?.price}  </Text>  </Text>
                   <Text>
-                    <Text><Icon name='areachart' size={20} color="#808080" ></Icon> </Text> <Text>Dhanmondhi </Text>
+                    <Text><Icon name='areachart' size={20} color="#808080" ></Icon> </Text> <Text> {item?.location} </Text>
                   </Text>
                 </View>
               </View>
