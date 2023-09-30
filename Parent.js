@@ -27,8 +27,8 @@ const Parent = () => {
         loading ? <Loader />
             :
             <NavigationContainer>
-                <Stack.Navigator initialRouteName='Login'>
-                    <Stack.Screen name='Home' component={Home} />
+                <Stack.Navigator initialRouteName='Login' options={{ headerShown: false }} >
+                    <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
                     <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
                     <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
                     <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />

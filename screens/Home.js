@@ -1,5 +1,5 @@
 import { View, Text, Image, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
 import image1 from "../assets/Food/item1.jpg";
@@ -9,6 +9,10 @@ import image4 from "../assets/Food/item4.jpg";
 import image5 from "../assets/Food/item5.jpg";
 import image6 from "../assets/Food/item6.jpg";
 import Icon from 'react-native-vector-icons/AntDesign';
+import { Button } from 'react-native-paper';
+import { defaultStyle } from "../styles/styles";
+import Header from '../components/Header';
+import Heading from '../components/Heading';
 
 const fakeData = [
   {
@@ -72,6 +76,43 @@ const Home = () => {
   const navigation = useNavigation();
   const { isAuthenticated } = useSelector((state) => state.user);
 
+  const categories = [
+    {
+      _id: 1,
+      name: "Food-1"
+    },
+    {
+      _id: 2,
+      name: "Food-2"
+    },
+    {
+      _id: 3,
+      name: "Food-3"
+    },
+    {
+      _id: 4,
+      name: "Food-4"
+    },
+    {
+      _id: 5,
+      name: "Food-5"
+    },
+    {
+      _id: 6,
+      name: "Food-6"
+    }
+  ]
+
+  // state 
+  const [category, setCategory] = useState("");
+  // const [categories, setCategories] = useState([]);
+
+
+  const categoryButtonHandler = (id) => {
+    setCategory(id);
+    // console.log(id);
+  }
+
 
 
   useEffect(() => {
@@ -82,83 +123,139 @@ const Home = () => {
 
 
   return (
-    <ScrollView
-      style={{
-        backgroundColor: '#e6e6e6'
-      }}
-    >
+    <>
+
       <View style={{
-        display: 'flex',
-        gap: 20,
-        top: 10,
-        marginBottom: 20
-
-
+        defaultStyle
       }}>
+
+        <Header />
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Heading
+            text1='Our' text2='Products' />
+        </View>
+      </View>
+
+      <ScrollView
+        horizontal
+        contentContainerStyle={{
+          alignItems: "center",
+          paddingBottom:20,
+          paddingTop:20
+        }}
+        showsHorizontalScrollIndicator={false}
+      >
         {
-          fakeData?.map((item) => (
-            <View style={{
-              width: '100%',
-              height: 160,
-              backgroundColor: '#fff',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexDirection: 'row',
-              gap: 15
-            }}
-              key={item?.id}
+          categories &&
+          categories?.map((item, index) => (
+            <Button
+              key={index}
+              style={{
+                backgroundColor: category === item._id ? "red" : "gray",
+                borderRadius: 100,
+                margin: 5,
+                height:40,
+                marginTop:20,
+                
+              }}
+              onPress={() => categoryButtonHandler(item._id)}
             >
-              <View style={{
-                width: '40%'
-              }}>
-
-                <Image source={item?.img} style={{
-                  width: 140,
-                  height: 140,
-                  borderRadius: 7,
-                  marginLeft: 5
-                }} />
-              </View>
-              <View style={{
-                width: '60%',
-                marginLeft: 0,
-                marginRight: 15
-              }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 25,
-                    fontWeight: 700,
-                    marginLeft: 0,
-                    marginRight: 5
-
-                  }}
-                > {item?.title} </Text>
-                <Text
-                  style={{
-                    textAlign: 'justify',
-                    marginRight: 20,
-                    fontSize: 16,
-                    fontWeight: 500,
-                    opacity: 0.6
-
-                  }}
-                >
-                  {item?.desc}
-                </Text>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                  <Text style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}> <Text> <Icon name='tags' size={20} color="#808080" ></Icon> </Text>  <Text> {item?.price}  </Text>  </Text>
-                  <Text>
-                    <Text><Icon name='areachart' size={20} color="#808080" ></Icon> </Text> <Text> {item?.location} </Text>
-                  </Text>
-                </View>
-              </View>
-            </View>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: category === item._id ? "#fff" : "#ffff",
+                }}
+              > {item?.name} </Text>
+            </Button>
           ))
         }
-      </View>
-    </ ScrollView>
+      </ScrollView>
+
+      <ScrollView
+        style={{
+          backgroundColor: '#e6e6e6'
+        }}
+      >
+        <View style={{
+          display: 'flex',
+          gap: 20,
+          top: 10,
+          marginBottom: 20
+
+
+        }}>
+          {
+            fakeData?.map((item) => (
+              <View style={{
+                width: '100%',
+                height: 160,
+                backgroundColor: '#fff',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: 'row',
+                gap: 15
+              }}
+                key={item?.id}
+              >
+                <View style={{
+                  width: '40%'
+                }}>
+
+                  <Image source={item?.img} style={{
+                    width: 140,
+                    height: 140,
+                    borderRadius: 7,
+                    marginLeft: 5
+                  }} />
+                </View>
+                <View style={{
+                  width: '60%',
+                  marginLeft: 0,
+                  marginRight: 15
+                }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 25,
+                      fontWeight: 700,
+                      marginLeft: 0,
+                      marginRight: 5
+
+                    }}
+                  > {item?.title} </Text>
+                  <Text
+                    style={{
+                      textAlign: 'justify',
+                      marginRight: 20,
+                      fontSize: 16,
+                      fontWeight: 500,
+                      opacity: 0.6
+
+                    }}
+                  >
+                    {item?.desc}
+                  </Text>
+                  <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                    <Text style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}> <Text> <Icon name='tags' size={20} color="#808080" ></Icon> </Text>  <Text> {item?.price}  </Text>  </Text>
+                    <Text>
+                      <Text><Icon name='areachart' size={20} color="#808080" ></Icon> </Text> <Text> {item?.location} </Text>
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            ))
+          }
+        </View>
+      </ ScrollView>
+    </>
   )
 }
 
