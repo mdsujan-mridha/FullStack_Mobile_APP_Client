@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Layout/Loader';
 import { loginUser } from '../components/action/userAction';
+import Toast from 'react-native-toast-message';
 
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -19,11 +20,16 @@ const Login = ({ navigation }) => {
 
     useEffect(() => {
         if (error) {
-            alert(error);
-            console.log(error);
+            Toast.show({
+                type: 'error',
+                text1: error,
+            });
         }
         if (isAuthenticated === true) {
-            alert("Login Successful!");
+            Toast.show({
+                type: 'success',
+                text1: 'Login Successfully',
+            });
             navigation.navigate("Home")
         }
     }, [error, isAuthenticated])
