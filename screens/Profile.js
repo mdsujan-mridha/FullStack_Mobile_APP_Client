@@ -6,7 +6,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { useMessageAndErrorUser } from '../utils/hooks'
 import { logout } from '../components/action/userAction'
 import Loader from '../components/Layout/Loader';
-import { Avatar, Button } from 'react-native-paper';
+import { Avatar, Button, Dialog, Portal, TextInput } from 'react-native-paper';
 
 import defaultImg from "../assets/profile/profile.jpg";
 
@@ -15,9 +15,10 @@ const Profile = ({ navigation, route }) => {
   const [avatar, setAvatar] = useState(defaultImg);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-
+  const [visible, setVisible] = React.useState(false);
   const loading = useMessageAndErrorUser(navigation, dispatch, "login");
-
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -70,7 +71,27 @@ const Profile = ({ navigation, route }) => {
                 <View style={styles.container2} >
                   <TouchableOpacity >
                     <Button style={{ backgroundColor: 'white', marginTop: 20, }}> <Text> My Donation </Text> </Button>
+                    <Button mode='contained' onPress={showDialog} style={{ backgroundColor: 'white', marginTop: 20, }}> <Text style={styles.txt}> Donate food </Text> </Button>
                   </TouchableOpacity>
+
+                  <Portal>
+                    <Dialog visible={visible} onDismiss={hideDialog}>
+                      <Dialog.Title style={{ textAlign: 'center', fontWeight: 600 }}>Donate your Food</Dialog.Title>
+                      <Dialog.Content>
+                        <Text>Enter the details of the food you want to donate here.</Text>
+                        <TextInput  placeholder='Food name'/>
+                        <TextInput  placeholder='Description'/>
+                        <TextInput  placeholder='location'/>
+                        <TextInput  placeholder='price'/>
+                        <TextInput  placeholder='quantity'/>
+                        
+                      </Dialog.Content>
+                      <Dialog.Actions>
+                        <Button onPress={hideDialog}>Cancel</Button>
+                        <Button onPress={hideDialog}>Confirm</Button>
+                      </Dialog.Actions>
+                    </Dialog>
+                  </Portal>
                 </View>
               </>
             )
@@ -102,6 +123,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: colors.color2,
   },
+  txt: {
+    color: 'black'
+  }
 });
 
 export default Profile
