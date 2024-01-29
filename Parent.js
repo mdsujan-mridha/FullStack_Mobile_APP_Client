@@ -12,6 +12,7 @@ import Loader from './components/Layout/Loader';
 import Profile from './screens/Profile';
 import ProductDetails from './screens/ProductDetails';
 import Toast from 'react-native-toast-message';
+import AdminPanel from './components/AdminPanel/AdminPanel';
 
 const Stack = createNativeStackNavigator();
 const Parent = () => {
@@ -36,6 +37,11 @@ const Parent = () => {
 
                     <Stack.Screen name='productdetails' component={ProductDetails} options={{ headerShown: false }} />
                     <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
+
+                  
+                  {/* admin panel  */}
+                  <Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />
+
                 </Stack.Navigator>
                 <Toast position='top' />
                 {isAuthenticated && <Footer />}

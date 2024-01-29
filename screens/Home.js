@@ -14,59 +14,71 @@ import Header from '../components/Header';
 import Heading from '../components/Heading';
 import ProductCard from '../components/ProductCard';
 
-const fakeData = [
+export const fakeData = [
   {
-    id: 1,
+    _id: 1,
     img: image1,
     title: 'Chocolate Fondue',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
-    location: 'Dhanmondhi'
+    location: 'Dhanmondhi',
+    category:"Food",
+    Stock:34
 
   },
   {
-    id: 2,
+    _id: 2,
     img: image2,
     title: 'Hamburger',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 30,
-    location: 'Uttara'
+    location: 'Uttara',
+    category:"Food",
+    Stock:34
 
   },
   {
-    id: 3,
+    _id: 3,
     img: image3,
     title: 'Caesar Salad',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 50,
-    location: 'Dhanmondhi'
+    location: 'Dhanmondhi',
+    category:"Food",
+    Stock:34
 
   },
   {
-    id: 4,
+    _id: 4,
     img: image4,
     title: 'Falafel',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
-    location: 'Mirpur 12'
+    location: 'Mirpur 12',
+    category:"Food",
+    Stock:34
 
   },
   {
-    id: 5,
+    _id: 5,
     img: image5,
     title: 'Cookie',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
-    location: 'Kalabagan'
+    location: 'Kalabagan',
+    category:"Food",
+    Stock:34
 
   },
   {
-    id: 6,
+    _id: 6,
     img: image6,
     title: 'Moussaka',
     desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
     price: 20,
-    location: 'Dhanmondhi'
+    location: 'Dhanmondhi',
+    category:"Food",
+    Stock:34
 
   }
 ]
@@ -78,27 +90,27 @@ const Home = () => {
 
   const categories = [
     {
-      _id: 1,
+      __id: 1,
       name: "Food-1"
     },
     {
-      _id: 2,
+      __id: 2,
       name: "Food-2"
     },
     {
-      _id: 3,
+      __id: 3,
       name: "Food-3"
     },
     {
-      _id: 4,
+      __id: 4,
       name: "Food-4"
     },
     {
-      _id: 5,
+      __id: 5,
       name: "Food-5"
     },
     {
-      _id: 6,
+      __id: 6,
       name: "Food-6"
     }
   ]
@@ -108,9 +120,9 @@ const Home = () => {
   // const [categories, setCategories] = useState([]);
   const navigate = useNavigation();
 
-  const categoryButtonHandler = (id) => {
-    setCategory(id);
-    // console.log(id);
+  const categoryButtonHandler = (_id) => {
+    setCategory(_id);
+    // console.log(_id);
   }
 
 
@@ -158,19 +170,19 @@ const Home = () => {
             <Button
               key={index}
               style={{
-                backgroundColor: category === item._id ? "red" : "gray",
+                backgroundColor: category === item.__id ? "red" : "gray",
                 borderRadius: 100,
                 margin: 5,
                 height: 40,
                 marginTop: 20,
 
               }}
-              onPress={() => categoryButtonHandler(item._id)}
+              onPress={() => categoryButtonHandler(item.__id)}
             >
               <Text
                 style={{
                   fontSize: 12,
-                  color: category === item._id ? "#fff" : "#ffff",
+                  color: category === item.__id ? "#fff" : "#ffff",
                 }}
               > {item?.name} </Text>
             </Button>
@@ -195,8 +207,8 @@ const Home = () => {
             fakeData?.map((item) => (
               <ProductCard
                 item={item}
-                key={item.id}
-                id={item?.id}
+                key={item._id}
+                _id={item?._id}
                 navigate={navigate}
               />
             ))

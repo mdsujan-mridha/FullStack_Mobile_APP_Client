@@ -64,6 +64,12 @@ const Profile = ({ navigation, route }) => {
 
                   </TouchableOpacity>
                   <TouchableOpacity >
+                    <Button style={{ backgroundColor: 'white', marginTop: 20, }}
+                      onPress={() => navigation.navigate("adminpanel")}
+                    >  <Text> Dashboard </Text> </Button>
+
+                  </TouchableOpacity>
+                  <TouchableOpacity >
 
                     <Button style={{ backgroundColor: 'white', marginTop: 20, }}> <Text> Reset password </Text> </Button>
                   </TouchableOpacity>
@@ -79,12 +85,12 @@ const Profile = ({ navigation, route }) => {
                       <Dialog.Title style={{ textAlign: 'center', fontWeight: 600 }}>Donate your Food</Dialog.Title>
                       <Dialog.Content>
                         <Text>Enter the details of the food you want to donate here.</Text>
-                        <TextInput  placeholder='Food name'/>
-                        <TextInput  placeholder='Description'/>
-                        <TextInput  placeholder='location'/>
-                        <TextInput  placeholder='price'/>
-                        <TextInput  placeholder='quantity'/>
-                        
+                        <TextInput placeholder='Food name' />
+                        <TextInput placeholder='Description' />
+                        <TextInput placeholder='location' />
+                        <TextInput placeholder='price' />
+                        <TextInput placeholder='quantity' />
+
                       </Dialog.Content>
                       <Dialog.Actions>
                         <Button onPress={hideDialog}>Cancel</Button>
