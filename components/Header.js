@@ -1,6 +1,6 @@
 
 
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {  TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Avatar } from 'react-native-paper';
@@ -59,7 +59,7 @@ const Header = ({ back, emptyCart }) => {
                     style={{
                         backgroundColor: colors.color4,
                     }}
-                    icon={emptyCart ? "delete-underline" : "cart-outline"}
+                    icon={emptyCart ? "backspace-reverse" : "cart-outline"}
                     color={
                         route.name === "productDetails" ? colors.color2 : colors.color3
                     }

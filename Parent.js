@@ -13,6 +13,7 @@ import Profile from './screens/Profile';
 import ProductDetails from './screens/ProductDetails';
 import Toast from 'react-native-toast-message';
 import AdminPanel from './components/AdminPanel/AdminPanel';
+import Cart from './components/Cart/Cart';
 
 const Stack = createNativeStackNavigator();
 const Parent = () => {
@@ -34,13 +35,13 @@ const Parent = () => {
                     <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
                     <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
                     <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
-
+                    <Stack.Screen name='cart' component={Cart} options={{ headerShown: false }} />
                     <Stack.Screen name='productdetails' component={ProductDetails} options={{ headerShown: false }} />
                     <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
 
-                  
-                  {/* admin panel  */}
-                  <Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />
+
+                    {/* admin panel  */}
+                    <Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />
 
                 </Stack.Navigator>
                 <Toast position='top' />
