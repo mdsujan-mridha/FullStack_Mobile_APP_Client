@@ -1,6 +1,6 @@
 
 
-import {  TouchableOpacity, View } from 'react-native'
+import { TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Avatar } from 'react-native-paper';
@@ -10,16 +10,13 @@ const Header = ({ back, emptyCart }) => {
     const navigate = useNavigation();
     const route = useRoute();
 
-    // empty cart handler 
-    const emptyCartHandler = () => {
-
-    }
+ 
 
     return (
         <View
             style={{
-                marginTop: 50,
-                marginBottom: 30
+                marginTop:0,
+                marginBottom: 50
             }}
         >
             {
@@ -53,16 +50,21 @@ const Header = ({ back, emptyCart }) => {
                     top: 40,
                     zIndex: 10,
                 }}
-                onPress={emptyCart ? emptyCartHandler : () => navigate.navigate("cart")}
             >
-                <Avatar.Icon
+                <TextInput
+                    placeholder='search'
                     style={{
-                        backgroundColor: colors.color4,
+
+                        backgroundColor: "#fff",
+                        borderWidth: 1,
+                        borderColor: "#b5b5b5",
+                        padding: 5,
+                        paddingLeft: 15,
+                        borderRadius: 5,
+                        marginVertical: 15,
+                        fontSize: 15,
+                        width: 200,
                     }}
-                    icon={emptyCart ? "backspace-reverse" : "cart-outline"}
-                    color={
-                        route.name === "productDetails" ? colors.color2 : colors.color3
-                    }
                 />
             </TouchableOpacity>
         </View>

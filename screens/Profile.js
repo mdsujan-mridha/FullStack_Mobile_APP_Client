@@ -76,7 +76,7 @@ const Profile = ({ navigation, route }) => {
                 </View>
                 <View style={styles.container2} >
                   <TouchableOpacity >
-                    <Button style={{ backgroundColor: 'white', marginTop: 20, }}> <Text> My Donation </Text> </Button>
+                    <Button onPress={() => navigation.navigate("collection")} style={{ backgroundColor: 'white', marginTop: 20, }}> <Text> My Collection </Text> </Button>
                     <Button mode='contained' onPress={showDialog} style={{ backgroundColor: 'white', marginTop: 20, }}> <Text style={styles.txt}> Donate food </Text> </Button>
                   </TouchableOpacity>
 

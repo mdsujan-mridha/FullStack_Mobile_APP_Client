@@ -14,6 +14,7 @@ import ProductDetails from './screens/ProductDetails';
 import Toast from 'react-native-toast-message';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import Cart from './components/Cart/Cart';
+import Collection from './screens/Collection';
 
 const Stack = createNativeStackNavigator();
 const Parent = () => {
@@ -38,6 +39,7 @@ const Parent = () => {
                     <Stack.Screen name='cart' component={Cart} options={{ headerShown: false }} />
                     <Stack.Screen name='productdetails' component={ProductDetails} options={{ headerShown: false }} />
                     <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
+                    <Stack.Screen name='collection' component={Collection} options={{ headerShown: false }} />
 
 
                     {/* admin panel  */}

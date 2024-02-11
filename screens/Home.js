@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
 import image1 from "../assets/Food/item1.jpg";
 import image2 from "../assets/Food/item2.jpg";
@@ -13,105 +13,51 @@ import { defaultStyle } from "../styles/styles";
 import Header from '../components/Header';
 import Heading from '../components/Heading';
 import ProductCard from '../components/ProductCard';
+import { getProduct } from '../components/action/productAction';
+import Toast from 'react-native-toast-message';
+import { clearErrors } from '../components/action/userAction';
+import Loader from '../components/Layout/Loader';
 
-export const fakeData = [
-  {
-    _id: 1,
-    img: image1,
-    title: 'Chocolate Fondue',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 20,
-    location: 'Dhanmondhi',
-    category:"Food",
-    Stock:34
 
-  },
-  {
-    _id: 2,
-    img: image2,
-    title: 'Hamburger',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 30,
-    location: 'Uttara',
-    category:"Food",
-    Stock:34
-
-  },
-  {
-    _id: 3,
-    img: image3,
-    title: 'Caesar Salad',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 50,
-    location: 'Dhanmondhi',
-    category:"Food",
-    Stock:34
-
-  },
-  {
-    _id: 4,
-    img: image4,
-    title: 'Falafel',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 20,
-    location: 'Mirpur 12',
-    category:"Food",
-    Stock:34
-
-  },
-  {
-    _id: 5,
-    img: image5,
-    title: 'Cookie',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 20,
-    location: 'Kalabagan',
-    category:"Food",
-    Stock:34
-
-  },
-  {
-    _id: 6,
-    img: image6,
-    title: 'Moussaka',
-    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ratione?',
-    price: 20,
-    location: 'Dhanmondhi',
-    category:"Food",
-    Stock:34
-
-  }
-]
 
 const Home = () => {
-
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const { isAuthenticated } = useSelector((state) => state.user);
+  const {
+    loading,
+    products,
+    error,
+    productsCount,
+    resultPerPage,
+    filteredProductsCount
+
+  } = useSelector((state) => state.products)
 
   const categories = [
     {
       __id: 1,
-      name: "Food-1"
+      name: "Appetizers"
     },
     {
       __id: 2,
-      name: "Food-2"
+      name: "Desserts"
     },
     {
       __id: 3,
-      name: "Food-3"
+      name: "Beverages"
     },
     {
       __id: 4,
-      name: "Food-4"
+      name: "Salads"
     },
     {
       __id: 5,
-      name: "Food-5"
+      name: "Soups"
     },
     {
       __id: 6,
-      name: "Food-6"
+      name: "Sandwiches"
     }
   ]
 
@@ -119,20 +65,44 @@ const Home = () => {
   const [category, setCategory] = useState("");
   // const [categories, setCategories] = useState([]);
   const navigate = useNavigation();
+  
 
   const categoryButtonHandler = (_id) => {
     setCategory(_id);
     // console.log(_id);
   }
 
-
+  // const loading = false;
 
   useEffect(() => {
     if (isAuthenticated === false) {
       navigation.navigate("Login")
     }
-  }, [isAuthenticated])
+    if (error) {
+      Toast.show(error);
+      dispatch(clearErrors())
+    }
 
+    const timeOutId = setTimeout(() => {
+      dispatch(getProduct());
+    }, 500);
+    return () => {
+      clearTimeout(timeOutId);
+    }
+
+  }, [isAuthenticated]);
+
+  // useEffect(() => {
+
+  //   fetch(`https://emerald-capybara-slip.cyclic.cloud/api/v1/products`)
+  //     .then(res => res.json())
+  //     .then(data => setFakeData(data.products))
+
+  // }, [])
+
+  // console.log(fakeData);
+  
+  console.log(category)
 
   return (
     <>
@@ -190,31 +160,38 @@ const Home = () => {
         }
       </ScrollView>
 
-      <ScrollView
-        style={{
-          backgroundColor: '#e6e6e6'
-        }}
-      >
-        <View style={{
-          display: 'flex',
-          gap: 20,
-          top: 10,
-          marginBottom: 20
-
-
-        }}>
-          {
-            fakeData?.map((item) => (
-              <ProductCard
-                item={item}
-                key={item._id}
-                _id={item?._id}
-                navigate={navigate}
-              />
-            ))
-          }
-        </View>
-      </ ScrollView>
+      {
+        loading ?
+          (<Loader />)
+          :
+          (<>
+            <ScrollView
+              style={{
+                backgroundColor: '#e6e6e6'
+              }}
+            >
+              <View style={{
+                display: 'flex',
+                gap: 20,
+                top: 10,
+                marginBottom: 20
+              }}>
+                {
+                  products &&
+                  products?.map((item) => (
+                    <ProductCard
+                      item={item}
+                      key={item._id}
+                      id={item?._id}
+                      image={item.images[0]?.url}
+                      navigate={navigate}
+                    />
+                  ))
+                }
+              </View>
+            </ ScrollView>
+          </>)
+      }
     </>
   )
 }

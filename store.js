@@ -1,11 +1,22 @@
 
 import { applyMiddleware, combineReducers, legacy_createStore as createStore } from "redux";
 import thunk from "redux-thunk";
-import { userReducer } from "./components/reducer/userReducer";
+import { allUserReducer, forgotPasswordReducer, profileReducer, userDetailsReducer, userReducer } from "./components/reducer/userReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { newProductReducer, productDetailsReducer, productReducer, productsReducer } from "./components/reducer/productReducer";
 
 const reducer = combineReducers({
-    user: userReducer
+    user: userReducer,
+    products: productsReducer,
+    // get single products details 
+    productDetails: productDetailsReducer,
+    // user reducer 
+    profile: profileReducer,
+    forgotPassword: forgotPasswordReducer,
+    product: productReducer,
+    newProduct: newProductReducer,
+    allUsers: allUserReducer,
+    userDetails: userDetailsReducer,
 })
 const initialState = {};
 const middleware = [thunk]

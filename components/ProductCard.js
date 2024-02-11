@@ -2,7 +2,12 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const ProductCard = ({ item,id,navigate }) => {
+const ProductCard = ({ item, id, navigate, image }) => {
+
+
+    // console.log(image);
+    // console.log(item);
+
     return (
         <TouchableOpacity style={{
             width: '100%',
@@ -14,13 +19,19 @@ const ProductCard = ({ item,id,navigate }) => {
             flexDirection: 'row',
             gap: 15
         }}
-           onPress={() =>navigate.navigate("productdetails",{id})}
+        activeOpacity={1}
+            onPress={() => navigate.navigate("productdetails", { id })}
         // onPress={()=>navigate.navigate("productdetails")}
         >
             <View style={{
                 width: '40%'
             }}>
-                <Image source={item?.img} style={{
+                <Image 
+                source={{
+                    uri: image,
+                }} 
+                
+                style={{
                     width: 140,
                     height: 140,
                     borderRadius: 7,
@@ -41,7 +52,7 @@ const ProductCard = ({ item,id,navigate }) => {
                         marginRight: 5
 
                     }}
-                > {item?.title} </Text>
+                > {item?.name} </Text>
                 <Text
                     style={{
                         textAlign: 'justify',
@@ -51,7 +62,7 @@ const ProductCard = ({ item,id,navigate }) => {
                         opacity: 0.6
                     }}
                 >
-                    {item?.desc}
+                    {item?.description}
                 </Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <Text style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}> <Text> <Icon name='tags' size={20} color="#808080" ></Icon> </Text>  <Text> {item?.price}  </Text>  </Text>
