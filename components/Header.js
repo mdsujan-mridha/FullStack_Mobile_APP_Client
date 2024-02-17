@@ -6,10 +6,10 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { Avatar } from 'react-native-paper';
 import { colors } from '../styles/styles';
 
-const Header = ({ back, emptyCart }) => {
+const Header = ({ back}) => {
     const navigate = useNavigation();
     const route = useRoute();
-
+    
  
 
     return (
@@ -43,30 +43,7 @@ const Header = ({ back, emptyCart }) => {
                     </TouchableOpacity>
                 )
             }
-            <TouchableOpacity
-                style={{
-                    position: "absolute",
-                    right: 20,
-                    top: 40,
-                    zIndex: 10,
-                }}
-            >
-                <TextInput
-                    placeholder='search'
-                    style={{
-
-                        backgroundColor: "#fff",
-                        borderWidth: 1,
-                        borderColor: "#b5b5b5",
-                        padding: 5,
-                        paddingLeft: 15,
-                        borderRadius: 5,
-                        marginVertical: 15,
-                        fontSize: 15,
-                        width: 200,
-                    }}
-                />
-            </TouchableOpacity>
+            
         </View>
     )
 }

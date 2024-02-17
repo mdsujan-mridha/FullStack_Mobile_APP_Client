@@ -7,7 +7,7 @@ const ProductCard = ({ item, id, navigate, image }) => {
 
     // console.log(image);
     // console.log(item);
-
+    // console.log(id)
     return (
         <TouchableOpacity style={{
             width: '100%',
@@ -19,24 +19,24 @@ const ProductCard = ({ item, id, navigate, image }) => {
             flexDirection: 'row',
             gap: 15
         }}
-        activeOpacity={1}
+            activeOpacity={1}
             onPress={() => navigate.navigate("productdetails", { id })}
         // onPress={()=>navigate.navigate("productdetails")}
         >
             <View style={{
                 width: '40%'
             }}>
-                <Image 
-                source={{
-                    uri: image,
-                }} 
-                
-                style={{
-                    width: 140,
-                    height: 140,
-                    borderRadius: 7,
-                    marginLeft: 5
-                }} />
+                <Image
+                    source={{
+                        uri: image,
+                    }}
+
+                    style={{
+                        width: 140,
+                        height: 140,
+                        borderRadius: 7,
+                        marginLeft: 5
+                    }} />
             </View>
             <View style={{
                 width: '60%',

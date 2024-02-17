@@ -124,9 +124,11 @@ export const updateProfile = (userData) => async (dispatch) => {
     try {
 
         dispatch({ type: UPDATE_PROFILE_REQUEST });
-        const config = { headers: { "Content-Type": "multipart/form-data" } };
-        const { data } = await axios.put(`https://emerald-capybara-slip.cyclic.cloud/api/v1/me/updateProfile`, userData, config);
+        // const config = { headers: { "Content-Type": "multipart/form-data" } };
+        console.log(userData);
+        const { data } = await axios.put(`https://emerald-capybara-slip.cyclic.cloud/api/v1/update-profile`, userData);
         dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success })
+        console.log(data)
 
     } catch (error) {
         dispatch({
@@ -143,12 +145,11 @@ export const updatePassword = (password) => async (dispatch) => {
 
         dispatch({ type: UPDATE_PASSWORD_REQUEST })
 
-        const config = { headers: { "Content-type": "application/json" } };
+        // const config = { headers: { "Content-type": "application/json" } };
+        // console.log(password);
         const { data } = await axios.put(
-            `https://emerald-capybara-slip.cyclic.cloud/api/v1/password/update`,
-            password,
-            config
-        );
+            `https://emerald-capybara-slip.cyclic.cloud/api/v1/update-password`, password,);
+        console.log(data);
         dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
     } catch (error) {
         dispatch({

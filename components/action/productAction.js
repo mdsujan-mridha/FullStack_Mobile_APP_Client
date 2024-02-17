@@ -33,15 +33,15 @@ import {
 
 } from "../constant/productConstant"
 
-export const getProduct = (keyword = "",category) => async (dispatch) => {
+export const getProduct = (category) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCT_REQUEST });
 
         let link = `https://emerald-capybara-slip.cyclic.cloud/api/v1/products`;
 
-        // if (category) {
-        //     link = `https://emerald-capybara-slip.cyclic.cloud/api/v1/products?keyword=${keyword}&page=${currentPage}&category=${category}`;
-        // }
+        if (category) {
+            link = `https://emerald-capybara-slip.cyclic.cloud/api/v1/products?category=${category}`;
+        }
 
         const { data } = await axios.get(link);
         // console.log(data);r
@@ -146,16 +146,23 @@ export const deleteProduct = (id) => async (dispatch) => {
 
 }
 // create new product by admin 
-export const createProduct = (productData) => async (dispatch) => {
+export const createProduct = (productName, description, phoneNumber, location, price, quantity, category) => async (dispatch) => {
+
+
 
     try {
         dispatch({ type: NEW_PRODUCT_REQUEST })
-        //   const config = {
-        //     headers:{
-        //         "Content-type":"application/json"
-        //     }
-        //   }
-        const data = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/admin/product/new`, productData)
+        const config = {
+            headers: {
+                "Content-type": "multipart/form-data"
+            }
+        }
+        // console.log(productName, description, phoneNumber, location, price, quantity, category);
+
+        // const data = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/new/product`, productData,config)
+        // console.log(data);
+        const { data } = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/new/product`, {productName, description, phoneNumber, location, price, quantity, category });
+        // console.log(data);
         dispatch({
             type: NEW_PRODUCT_SUCCESS,
             payload: data

@@ -1,38 +1,63 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { colors, defaultStyle, formHeading } from '../styles/styles'
 import Loader from '../components/Layout/Loader';
-import { Avatar, Button } from 'react-native-paper';
+import { Avatar, Button, IconButton } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearErrors, createTodo, myTodos } from '../components/action/todoAction';
+import Toast from 'react-native-toast-message';
+import { NEW_TODO_RESET } from '../components/constant/todoConstant';
 
 
-const fakeData = [
-    {
-        id: 1,
-        title: "I have collect  briyani today",
-        description: "This is sample description",
-    },
-    {
-        id: 2,
-        title: "I have collect  briyani today",
-        description: "This is sample description",
-    },
-    {
-        id: 3,
-        title: "I have collect  briyani today",
-        description: "This is sample description",
-    }
-
-]
-
-
-const Collection = () => {
+const Collection = ({ navigation }) => {
+    const dispatch = useDispatch();
+    const { error, success } = useSelector((state) => state.newTodo);
+    const { user } = useSelector((state) => state.user);
     const loading = false;
-    const [todo, setTodo] = useState("");
+    const [todos, setTodos] = useState([]);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+    // const { loading, error, todos } = useSelector((state) => state.myTodos);
+
+    // const { user } = useSelector((state) => state.user);
+
+
+    useEffect(() => {
+        if (error) {
+            Toast.show(error);
+            dispatch(clearErrors());
+        }
+        if (success) {
+            Toast.show("Add todo Successfully");
+            dispatch({ type: NEW_TODO_RESET })
+        }
+
+    }, [dispatch, error]);
+
+
+    useEffect(() => {
+        fetch(`https://emerald-capybara-slip.cyclic.cloud/api/v1/my/todo`)
+            .then(res => res.json())
+            .then(data => setTodos(data.todos))
+    }, [])
+
+    // console.log(todos);
+
+
 
     const handleTodo = (e) => {
 
-        setTodo(todo);
+        const todoData = {
+            title,
+            description,
+            user: user?._id
+        }
+        // console.log(myForm);
+        dispatch(createTodo(todoData))
     }
+
+
     return (
         <View style={defaultStyle}>
             <View style={{ marginBottom: 20 }}>
@@ -52,19 +77,25 @@ const Collection = () => {
                             }}>
                                 <TextInput
                                     style={Styles.input}
-                                    placeholder='Add your collection'
-                                    value='todo'
-                                    onChangeText={handleTodo}
+                                    placeholder='collection Collection'
+                                    value={title}
+                                    onChangeText={setTitle}
                                 />
-                                <Button style={Styles.btn}>
+                                <TextInput
+                                    style={Styles.input}
+                                    placeholder='collection Description'
+                                    value={description}
+                                    onChangeText={setDescription}
+                                />
+                                <Button onPress={handleTodo} style={Styles.btn}>
                                     <Text style={{ color: "#fff" }}> Add </Text>
                                 </Button>
                             </View>
-                            <View>
+                            <ScrollView>
 
                                 {
-                                    fakeData &&
-                                    fakeData.map((item, index) => (
+                                    todos &&
+                                    todos.map((item, index) => (
                                         <View
                                             key={item?._id}
                                             style={{
@@ -82,7 +113,7 @@ const Collection = () => {
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
                                             }}>
-                                            <Text style={{ fontSize: 17, fontWeight: 900,color:"#fff" }}> {item?.title}  </Text>
+                                            <Text style={{ fontSize: 17, fontWeight: 900, color: "#fff" }}> {item?.title}  </Text>
                                             <View
                                                 style={{
                                                     display: "flex",
@@ -90,20 +121,21 @@ const Collection = () => {
                                                     gap: 5
                                                 }}
                                             >
-                                                <Avatar.Icon size={30} icon="delete" />
-                                                <Avatar.Icon size={30} icon="database-edit" />
+                                                {/* <IconButton
+                                                    icon="database-edit"
+                                                    iconColor='white'
+                                                    size={40}
+                                                    onPress={() => navigation.navigate("updatecollection", { id: item._id })}
+                                                >
+                                                </IconButton> */}
                                             </View>
                                         </View>
                                     ))
                                 }
-
-                            </View>
+                            </ScrollView>
                         </>
-
-
                     )
             }
-
         </View>
     )
 }

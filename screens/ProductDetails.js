@@ -1,36 +1,60 @@
 import { View, Text, Dimensions, Image, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { colors, defaultStyle } from '../styles/styles'
-import Header from '../components/Header'
-
 import { Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, getProductDetails } from '../components/action/productAction';
 import Toast from 'react-native-toast-message';
 import Loader from '../components/Layout/Loader';
+import Header from '../components/Header';
+import { useRoute } from '@react-navigation/native';
 
 
 
 const ProductDetails = ({ route: { params } }) => {
 
-    const dispatch = useDispatch();
-    const id = params?.id
+    // const dispatch = useDispatch();
+    // console.log(params?.id)
+    const id = params?.id;
     // console.log(id);
+    // const { product, loading, error } = useSelector((state) => state?.productDetails);
+    const [product, setProduct] = useState({});
+    const loading = false;
+    const [error, setError] = useState(false);
 
-    const { product, loading, error } = useSelector((state) => state.productDetails);
+    // useEffect(() => {
+    //     try {
+    //         if (error) {
+    //             Toast.show(error);
+    //             dispatch(clearErrors())
+    //         }
+    //         dispatch(getProductDetails(params?.id))
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+
+    // }, [params]);
 
     useEffect(() => {
-
-        if (error) {
-            Toast.show(error);
-            dispatch(clearErrors())
-        }
-        dispatch(getProductDetails(id))
-
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`https://emerald-capybara-slip.cyclic.cloud/api/v1/product/${id}`);
+                const data = await response.json();
+                setProduct(data.product);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
     }, [id]);
 
-    console.log(product.images[0].url);
-    const image = product?.images[0]?.url;
+
+    // console.log(product)
+    // console.log(product?.images[0]?.url)
+
+    // const image = product?.images[0]?.url;
+    // console.log(image)
+
 
     return (
         <View
@@ -40,9 +64,7 @@ const ProductDetails = ({ route: { params } }) => {
                 backgroundColor: colors.color1
             }}
         >
-            {/* <Header back={true} /> */}
-
-
+            <Header back={true} />
             <>
                 {
                     loading ?
@@ -50,24 +72,22 @@ const ProductDetails = ({ route: { params } }) => {
                         :
                         (
                             <>
-                                <Image 
-                                
-                                source={{
-                                    uri: image,
-                                }} 
-                                
-                                style={{
-                                    width: 250,
-                                    height: 250,
-                                    borderRadius: 5,
-                                    backgroundColor: colors.color5,
-                                    margin: 60,
+                                {/* <Image
+
+                                    source={{
+                                        uri: image,
+                                    }}
+                                    style={{
+                                        width: 250,
+                                        height: 250,
+                                        borderRadius: 5,
+                                        backgroundColor: colors.color5,
+                                        margin: 60,
 
 
-                                }} />
+                                    }} /> */}
 
-                                <ScrollView
-
+                                <View
                                     style={{
                                         backgroundColor: colors.color2,
                                         padding: 25,
@@ -115,13 +135,16 @@ const ProductDetails = ({ route: { params } }) => {
                                         <Text style={{ fontSize: 18, fontWeight: 900 }}> Phone Number: {product?.phoneNumber} </Text>
                                         <Avatar.Icon size={50} icon="message" />
                                     </View>
-                                </ScrollView>
+                                </View>
                             </>
                         )
                 }
             </>
 
         </View>
+        // <>
+
+        // </>
     )
 }
 

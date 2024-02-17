@@ -15,19 +15,20 @@ import Toast from 'react-native-toast-message';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import Cart from './components/Cart/Cart';
 import Collection from './screens/Collection';
+import NewDonation from './screens/NewDonation';
+import UpdatePassword from './screens/UpdatePassword';
+import UpdateProfile from './screens/UpdateProfile';
+import UpdateTodo from './screens/UpdateTodo';
 
 const Stack = createNativeStackNavigator();
 const Parent = () => {
     const dispatch = useDispatch()
-
-
-
     useEffect(() => {
         dispatch(loadUser())
     }, [dispatch])
 
-    const { loading, isAuthenticated } = useSelector((state) => state.user);
-
+    const { loading, isAuthenticated, user } = useSelector((state) => state.user);
+ 
     return (
         loading ? <Loader />
             :
@@ -40,10 +41,13 @@ const Parent = () => {
                     <Stack.Screen name='productdetails' component={ProductDetails} options={{ headerShown: false }} />
                     <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
                     <Stack.Screen name='collection' component={Collection} options={{ headerShown: false }} />
-
+                    <Stack.Screen name='updatecollection' component={UpdateTodo} options={{ headerShown: false }} />
+                    <Stack.Screen name='donation' component={NewDonation} options={{ headerShown: false }} />
+                    <Stack.Screen name='updatepassword' component={UpdatePassword} options={{ headerShown: false }} />
+                    <Stack.Screen name='updateprofile' component={UpdateProfile} options={{ headerShown: false }} />
 
                     {/* admin panel  */}
-                    <Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />
+                    < Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />
 
                 </Stack.Navigator>
                 <Toast position='top' />

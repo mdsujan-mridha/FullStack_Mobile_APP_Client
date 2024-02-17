@@ -1,15 +1,10 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
-import image1 from "../assets/Food/item1.jpg";
-import image2 from "../assets/Food/item2.jpg";
-import image3 from "../assets/Food/item3.jpg";
-import image4 from "../assets/Food/item4.jpg";
-import image5 from "../assets/Food/item5.jpg";
-import image6 from "../assets/Food/item6.jpg";
+
 import { Button } from 'react-native-paper';
-import { defaultStyle } from "../styles/styles";
+import { colors, defaultStyle } from "../styles/styles";
 import Header from '../components/Header';
 import Heading from '../components/Heading';
 import ProductCard from '../components/ProductCard';
@@ -17,7 +12,6 @@ import { getProduct } from '../components/action/productAction';
 import Toast from 'react-native-toast-message';
 import { clearErrors } from '../components/action/userAction';
 import Loader from '../components/Layout/Loader';
-
 
 
 const Home = () => {
@@ -35,44 +29,21 @@ const Home = () => {
   } = useSelector((state) => state.products)
 
   const categories = [
-    {
-      __id: 1,
-      name: "Appetizers"
-    },
-    {
-      __id: 2,
-      name: "Desserts"
-    },
-    {
-      __id: 3,
-      name: "Beverages"
-    },
-    {
-      __id: 4,
-      name: "Salads"
-    },
-    {
-      __id: 5,
-      name: "Soups"
-    },
-    {
-      __id: 6,
-      name: "Sandwiches"
-    }
-  ]
-
+    "Food",
+    "Footwear",
+    "Bottom",
+    "Tops",
+    "Attire",
+    "Camera",
+    "Biriyani",
+  ];
   // state 
   const [category, setCategory] = useState("");
   // const [categories, setCategories] = useState([]);
   const navigate = useNavigation();
-  
+  const [search, setSearch] = useState("");
 
-  const categoryButtonHandler = (_id) => {
-    setCategory(_id);
-    // console.log(_id);
-  }
-
-  // const loading = false;
+  // console.log(products.length);
 
   useEffect(() => {
     if (isAuthenticated === false) {
@@ -84,25 +55,29 @@ const Home = () => {
     }
 
     const timeOutId = setTimeout(() => {
-      dispatch(getProduct());
+      dispatch(getProduct(category));
     }, 500);
     return () => {
       clearTimeout(timeOutId);
     }
+    // dispatch(getProduct(category));
 
-  }, [isAuthenticated]);
+  }, [isAuthenticated, category]);
 
-  // useEffect(() => {
 
-  //   fetch(`https://emerald-capybara-slip.cyclic.cloud/api/v1/products`)
-  //     .then(res => res.json())
-  //     .then(data => setFakeData(data.products))
 
-  // }, [])
+  // console.log(category)
 
-  // console.log(fakeData);
-  
-  console.log(category)
+  const clearFilter = () => {
+
+    setCategory("");
+  }
+
+  // console.log(search)
+  const filterProduct = products?.filter((product) =>
+    (typeof product.name === 'string' && product.name.toLowerCase().includes(search.toLowerCase()))
+  )
+
 
   return (
     <>
@@ -123,6 +98,34 @@ const Home = () => {
           <Heading
             text1='Our' text2='Products' />
         </View>
+
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            right: 20,
+            top: 40,
+            zIndex: 10,
+          }}
+        >
+          <TextInput
+            value={search}
+            onChangeText={setSearch}
+            placeholder='search'
+            style={{
+              backgroundColor: "#fff",
+              borderWidth: 1,
+              borderColor: "#b5b5b5",
+              padding: 5,
+              paddingLeft: 15,
+              borderRadius: 5,
+              marginVertical: 15,
+              fontSize: 15,
+              width: 200,
+            }}
+
+          />
+        </TouchableOpacity>
+
       </View>
 
       <ScrollView
@@ -140,24 +143,19 @@ const Home = () => {
             <Button
               key={index}
               style={{
-                backgroundColor: category === item.__id ? "red" : "gray",
+                backgroundColor: colors.color5,
                 borderRadius: 100,
                 margin: 5,
                 height: 40,
                 marginTop: 20,
-
               }}
-              onPress={() => categoryButtonHandler(item.__id)}
+              onPress={() => setCategory(item)}
             >
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: category === item.__id ? "#fff" : "#ffff",
-                }}
-              > {item?.name} </Text>
+              <Text> {item} </Text>
             </Button>
           ))
         }
+        <Button onPress={clearFilter}> <Text> Reset </Text> </Button>
       </ScrollView>
 
       {
@@ -177,13 +175,13 @@ const Home = () => {
                 marginBottom: 20
               }}>
                 {
-                  products &&
-                  products?.map((item) => (
+                  filterProduct &&
+                  filterProduct?.map((item) => (
                     <ProductCard
                       item={item}
                       key={item._id}
                       id={item?._id}
-                      image={item.images[0]?.url}
+                      image={item?.images[0]?.url}
                       navigate={navigate}
                     />
                   ))

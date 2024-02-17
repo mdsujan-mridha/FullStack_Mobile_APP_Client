@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { allUserReducer, forgotPasswordReducer, profileReducer, userDetailsReducer, userReducer } from "./components/reducer/userReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { newProductReducer, productDetailsReducer, productReducer, productsReducer } from "./components/reducer/productReducer";
+import { myTodosReducer, newTodoReducer, todoReducer } from "./components/reducer/todoReducer";
 
 const reducer = combineReducers({
     user: userReducer,
@@ -17,10 +18,12 @@ const reducer = combineReducers({
     newProduct: newProductReducer,
     allUsers: allUserReducer,
     userDetails: userDetailsReducer,
+    myTodos: myTodosReducer,
+    newTodo: newTodoReducer,
+    todo: todoReducer,
 })
 const initialState = {};
 const middleware = [thunk]
-
 
 const store = createStore(
     reducer,
