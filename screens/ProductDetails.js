@@ -58,6 +58,13 @@ const ProductDetails = ({ route: { params } }) => {
     // const image = product?.images[0]?.url;
     // console.log(image)
 
+    const handleLocationClick = () => {
+        // Construct the Google Maps URL with the location parameter
+        const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(product?.location)}`;
+
+        // Open the URL in the default browser or the Google Maps app
+        Linking.openURL(googleMapsUrl);
+    };
 
     return (
         <View
@@ -130,9 +137,14 @@ const ProductDetails = ({ route: { params } }) => {
                                                 alignItems: "center",
                                             }}
                                         >
-                                            <Text style={{ fontSize: 18, fontWeight: 900 }}> Collection Details: {product?.location}
 
-                                            </Text>
+                                            <TouchableOpacity
+                                                onPress={handleLocationClick}
+                                            >
+                                                <Text style={{ fontSize: 18, fontWeight: 900 }}> Collection Details: {product?.location}
+                                                </Text>
+                                            </TouchableOpacity>
+
                                             <Avatar.Icon size={30} icon="google-maps" style={{ marginTop: 10 }} />
                                         </View>
                                         <TouchableOpacity onPress={handlePhoneNumberClick}>
