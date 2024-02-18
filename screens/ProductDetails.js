@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, Image, ScrollView } from 'react-native'
+import { View, Text, Dimensions, Image, ScrollView, Linking, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors, defaultStyle } from '../styles/styles'
 import { Avatar } from 'react-native-paper';
@@ -48,6 +48,9 @@ const ProductDetails = ({ route: { params } }) => {
         fetchData();
     }, [id]);
 
+    const handlePhoneNumberClick = () => {
+        Linking.openURL(`tel:${product?.phoneNumber}`);
+    };
 
     // console.log(product)
     // console.log(product?.images[0]?.url)
@@ -132,7 +135,11 @@ const ProductDetails = ({ route: { params } }) => {
                                             </Text>
                                             <Avatar.Icon size={30} icon="google-maps" style={{ marginTop: 10 }} />
                                         </View>
-                                        <Text style={{ fontSize: 18, fontWeight: 900 }}> Phone Number: {product?.phoneNumber} </Text>
+                                        <TouchableOpacity onPress={handlePhoneNumberClick}>
+                                            <Text style={{ fontSize: 18, fontWeight: 900 }}>
+                                                Phone Number: {product?.phoneNumber}
+                                            </Text>
+                                        </TouchableOpacity>
                                         <Avatar.Icon size={50} icon="message" />
                                     </View>
                                 </View>

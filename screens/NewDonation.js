@@ -1,12 +1,13 @@
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
-import { defaultStyle, formHeading, formStyles, inputStyling } from '../styles/styles'
-import { Button } from 'react-native-paper';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { colors, defaultStyle, formHeading, formStyles, inputStyling } from '../styles/styles'
+import { Avatar, Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { createProduct } from '../components/action/productAction';
+import mime from "mime";
 
-const NewDonation = () => {
-   const dispatch = useDispatch();
+const NewDonation = ({ navigation, route }) => {
+    const dispatch = useDispatch();
 
     const [productName, setProductName] = useState("");
     const [description, setDescription] = useState("");
@@ -17,12 +18,62 @@ const NewDonation = () => {
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
 
-    const handleSubmit = () => {
-        // console.log({productName, description, phoneNumber, location, price, quantity, category});
-        dispatch(createProduct(productName, description, phoneNumber, location, price, quantity, category));
-    }
+    // const submitHandler = () => {
+    //     const productData = {
+    //         productName: productName,
+    //         description: description,
+    //         price: price,
+    //         quantity: quantity,
+    //         phoneNumber: phoneNumber,
+    //         location: location,
+    //         category: category,
+    //         file: {
+    //             uri: image,
+    //             type: mime.getType(image),
+    //             name: image.split("/").pop(),
+    //         }
+    //     };
+
+    //     const formData = new URLSearchParams();
+
+    //     for (const [key, value] of Object.entries(productData)) {
+    //         if (typeof value === 'object') {
+    //             formData.append(key, JSON.stringify(value));
+    //         } else {
+    //             formData.append(key, value);
+    //         }
+    //     }
+
+    //     dispatch(createProduct(formData));
+    // };
 
 
+
+    const submitHandler = () => {
+        const myForm = new FormData();
+        myForm.append("productName", productName);
+        myForm.append("description", description);
+        myForm.append("price", price);
+        myForm.append("quantity", quantity);
+        myForm.append("category", category);
+        myForm.append("location", location);
+        myForm.append("phoneNumber", phoneNumber);
+        myForm.append("file", {
+            uri: image,
+            type: mime.getType(image),
+            name: image.split("/").pop(),
+        });
+
+        // if (categoryID) myForm.append("category", categoryID);
+
+        dispatch(createProduct(myForm));
+    };
+
+
+
+    useEffect(() => {
+        if (route.params?.image) setImage(route.params.image);
+    }, [route.params]);
 
     return (
         <View
@@ -33,6 +84,43 @@ const NewDonation = () => {
             </View>
 
             <ScrollView style={formStyles}>
+
+                <View
+                    style={{
+                        width: 80,
+                        height: 80,
+                        alignSelf: "center",
+                        marginBottom: 20,
+                    }}
+                >
+                    <Avatar.Image
+                        size={80}
+                        style={{
+                            backgroundColor: colors.color1,
+                        }}
+                        source={{
+                            uri: image ? image : null,
+                        }}
+                    />
+                    <TouchableOpacity
+                        onPress={() =>
+                            navigation.navigate("camera", { newProduct: true })
+                        }
+                    >
+                        <Avatar.Icon
+                            icon={"camera"}
+                            size={30}
+                            color={colors.color3}
+                            style={{
+                                backgroundColor: colors.color2,
+                                position: "absolute",
+                                bottom: 0,
+                                right: -5,
+                            }}
+                        />
+                    </TouchableOpacity>
+                </View>
+
                 <TextInput
                     placeholder='Food name'
                     value={productName}
@@ -77,8 +165,8 @@ const NewDonation = () => {
                     style={{ ...inputStyling, borderColor: '#000000', borderWidth: 1, borderRadius: 10, marginBottom: 10, paddingLeft: 10 }}
                 />
                 <Button
-                    onPress={handleSubmit}
-                    style={{ backgroundColor: "rgba(227,25,99,1)", }}> 
+                    onPress={submitHandler}
+                    style={{ backgroundColor: "rgba(227,25,99,1)", }}>
                     <Text style={{ color: "#ffff", fontSize: 17, fontWeight: 900 }}> Donate </Text> </Button>
             </ScrollView>
         </View>

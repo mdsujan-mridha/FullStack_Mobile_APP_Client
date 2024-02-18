@@ -19,6 +19,8 @@ import NewDonation from './screens/NewDonation';
 import UpdatePassword from './screens/UpdatePassword';
 import UpdateProfile from './screens/UpdateProfile';
 import UpdateTodo from './screens/UpdateTodo';
+import CameraComponent from './screens/CameraComponent';
+
 
 const Stack = createNativeStackNavigator();
 const Parent = () => {
@@ -28,7 +30,7 @@ const Parent = () => {
     }, [dispatch])
 
     const { loading, isAuthenticated, user } = useSelector((state) => state.user);
- 
+
     return (
         loading ? <Loader />
             :
@@ -45,6 +47,7 @@ const Parent = () => {
                     <Stack.Screen name='donation' component={NewDonation} options={{ headerShown: false }} />
                     <Stack.Screen name='updatepassword' component={UpdatePassword} options={{ headerShown: false }} />
                     <Stack.Screen name='updateprofile' component={UpdateProfile} options={{ headerShown: false }} />
+                    <Stack.Screen name='camera' component={CameraComponent} options={{ headerShown: false }} />
 
                     {/* admin panel  */}
                     < Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />

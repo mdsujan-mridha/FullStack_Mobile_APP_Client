@@ -146,10 +146,7 @@ export const deleteProduct = (id) => async (dispatch) => {
 
 }
 // create new product by admin 
-export const createProduct = (productName, description, phoneNumber, location, price, quantity, category) => async (dispatch) => {
-
-
-
+export const createProduct = (productData) => async (dispatch) => {
     try {
         dispatch({ type: NEW_PRODUCT_REQUEST })
         const config = {
@@ -157,12 +154,10 @@ export const createProduct = (productName, description, phoneNumber, location, p
                 "Content-type": "multipart/form-data"
             }
         }
-        // console.log(productName, description, phoneNumber, location, price, quantity, category);
-
-        // const data = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/new/product`, productData,config)
-        // console.log(data);
-        const { data } = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/new/product`, {productName, description, phoneNumber, location, price, quantity, category });
-        // console.log(data);
+        console.log('Product data from action', productData)
+        const data = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/new/product`, productData,config)
+        
+        console.log(data);
         dispatch({
             type: NEW_PRODUCT_SUCCESS,
             payload: data
@@ -173,7 +168,6 @@ export const createProduct = (productName, description, phoneNumber, location, p
             payload: error.response?.data.message
         })
     }
-
 }
 export const updateProduct = (id, productData) => async (dispatch) => {
     try {
