@@ -1,15 +1,50 @@
 import { StyleSheet, Text, TextInput, View, KeyboardAvoidingView, Platform } from 'react-native'
-import React, { useState } from 'react'
-import { colors,formHeading } from '../styles/styles'
+import React, { useEffect, useMemo, useState } from 'react'
+import { colors, formHeading } from '../styles/styles'
 import { Button } from 'react-native-paper'
+import { io } from 'socket.io-client';
 
 const Chat = () => {
 
+    const socket = useMemo(
+        () =>
+            io("https://emerald-capybara-slip.cyclic.cloud", {
+                withCredentials: true,
+            }),
+        []
+    );
+
+    const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
 
     const messageHandler = (e) => {
-        setMessage(e)
+        socket.emit("message", message);
+        setMessage("");
     }
+
+    useEffect(() => {
+
+        socket.on("connect", () => {
+            console.log("connected", socket.id);
+        });
+
+        socket.on("receive-message", (data) => {
+            console.log(data);
+            setMessages((messages) => [...messages, data]);
+
+        })
+
+        socket.on("welcome", (s) => {
+            console.log(s);
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+
+    }, [socket]);
+
+    console.log(messages);
 
     return (
         <KeyboardAvoidingView
@@ -22,9 +57,7 @@ const Chat = () => {
                     <Text style={formHeading}> Donate Your food! </Text>
                 </View>
 
-                <View>
-                    <Text style={{ fontSize: 17 }}> {message} </Text>
-                </View>
+
 
                 <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
                     <TextInput
@@ -36,7 +69,7 @@ const Chat = () => {
                             padding: 20,
                         }}
                         value={message}
-                        onChangeText={(text) => setMessage(text)}
+                        onChangeText={(e) => setMessage(e)}
                     />
                     <Button
                         style={{
@@ -47,6 +80,13 @@ const Chat = () => {
                     >
                         <Text style={{ color: colors.color2 }}> Send </Text>
                     </Button>
+                </View>
+                <View>
+                    {
+                        messages?.map((m, i) => (
+                            <Text key={i}> {m} </Text>
+                        ))
+                    }
                 </View>
             </View>
         </KeyboardAvoidingView>

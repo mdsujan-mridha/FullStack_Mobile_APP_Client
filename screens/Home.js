@@ -2,7 +2,6 @@ import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-nativ
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
-
 import { Button } from 'react-native-paper';
 import { colors, defaultStyle } from "../styles/styles";
 import Header from '../components/Header';
@@ -18,13 +17,11 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { isAuthenticated } = useSelector((state) => state.user);
+  const [allProducts, setAllProducts] = useState([])
   const {
     loading,
     products,
     error,
-    productsCount,
-    resultPerPage,
-    filteredProductsCount
 
   } = useSelector((state) => state.products)
 
@@ -64,6 +61,19 @@ const Home = () => {
 
   }, [isAuthenticated, category]);
 
+
+  useEffect(() => {
+    let apiUrl = 'https://emerald-capybara-slip.cyclic.cloud/api/v1/products';
+
+    // Check if category is set
+    if (category) {
+        apiUrl += `?category=${category}`;
+    }
+
+    fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => setAllProducts(data.products))
+}, [category])
 
 
   // console.log(category)
@@ -175,8 +185,8 @@ const Home = () => {
                 marginBottom: 20
               }}>
                 {
-                  filterProduct &&
-                  filterProduct?.map((item) => (
+                  allProducts &&
+                  allProducts?.map((item) => (
                     <ProductCard
                       item={item}
                       key={item._id}

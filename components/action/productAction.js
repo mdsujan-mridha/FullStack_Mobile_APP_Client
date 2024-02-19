@@ -45,12 +45,10 @@ export const getProduct = (category) => async (dispatch) => {
 
         const { data } = await axios.get(link);
         // console.log(data);r
-
         dispatch({
             type: ALL_PRODUCT_SUCCESS,
             payload: data
         })
-
     } catch (error) {
         dispatch({
             type: ALL_PRODUCT_FAIL,
@@ -154,10 +152,7 @@ export const createProduct = (productData) => async (dispatch) => {
                 "Content-type": "multipart/form-data"
             }
         }
-        console.log('Product data from action', productData)
         const data = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/new/product`, productData,config)
-        
-        console.log(data);
         dispatch({
             type: NEW_PRODUCT_SUCCESS,
             payload: data
