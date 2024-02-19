@@ -1,17 +1,15 @@
-import { View, Text, Dimensions, Image, ScrollView, Linking, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, Dimensions, Image, ScrollView, Linking, TouchableOpacity, StyleSheet } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { colors, defaultStyle } from '../styles/styles'
 import { Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, getProductDetails } from '../components/action/productAction';
-import Toast from 'react-native-toast-message';
+
 import Loader from '../components/Layout/Loader';
 import Header from '../components/Header';
-import { useRoute } from '@react-navigation/native';
 
 
-
-const ProductDetails = ({ route: { params } }) => {
+const ProductDetails = ({ navigation, route: { params } }) => {
 
     // const dispatch = useDispatch();
     // console.log(params?.id)
@@ -20,7 +18,7 @@ const ProductDetails = ({ route: { params } }) => {
     // const { product, loading, error } = useSelector((state) => state?.productDetails);
     const [product, setProduct] = useState({});
     const loading = false;
-    const [error, setError] = useState(false);
+
 
     // useEffect(() => {
     //     try {
@@ -52,11 +50,10 @@ const ProductDetails = ({ route: { params } }) => {
         Linking.openURL(`tel:${product?.phoneNumber}`);
     };
 
-    // console.log(product)
-    // console.log(product?.images[0]?.url)
 
-    // const image = product?.images[0]?.url;
-    // console.log(image)
+
+    const image = product?.images ? product?.images[0]?.url : null;
+
 
     const handleLocationClick = () => {
         // Construct the Google Maps URL with the location parameter
@@ -82,7 +79,7 @@ const ProductDetails = ({ route: { params } }) => {
                         :
                         (
                             <>
-                                {/* <Image
+                                <Image
 
                                     source={{
                                         uri: image,
@@ -93,9 +90,7 @@ const ProductDetails = ({ route: { params } }) => {
                                         borderRadius: 5,
                                         backgroundColor: colors.color5,
                                         margin: 60,
-
-
-                                    }} /> */}
+                                    }} />
 
                                 <View
                                     style={{
@@ -152,7 +147,29 @@ const ProductDetails = ({ route: { params } }) => {
                                                 Phone Number: {product?.phoneNumber}
                                             </Text>
                                         </TouchableOpacity>
-                                        <Avatar.Icon size={50} icon="message" />
+                                        <TouchableOpacity
+                                            style={{
+                                                marginTop: 20,
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                gap: 5,
+                                                backgroundColor: colors.color3,
+                                                height: 40,
+                                                borderRadius: 20
+                                            }}
+                                            onPress={() => navigation.navigate("chat")}
+                                        >
+                                            <Text
+                                                style={{
+                                                    color: colors.color2,
+                                                    fontSize: 16,
+                                                    fontWeight: 800
+                                                }}
+                                            > Chat with donar </Text>
+                                            <Avatar.Icon size={20} icon="message" />
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </>

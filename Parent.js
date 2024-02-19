@@ -20,6 +20,7 @@ import UpdatePassword from './screens/UpdatePassword';
 import UpdateProfile from './screens/UpdateProfile';
 import UpdateTodo from './screens/UpdateTodo';
 import CameraComponent from './screens/CameraComponent';
+import Chat from './screens/Chat';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,6 +49,7 @@ const Parent = () => {
                     <Stack.Screen name='updatepassword' component={UpdatePassword} options={{ headerShown: false }} />
                     <Stack.Screen name='updateprofile' component={UpdateProfile} options={{ headerShown: false }} />
                     <Stack.Screen name='camera' component={CameraComponent} options={{ headerShown: false }} />
+                    <Stack.Screen name='chat' component={Chat} options={{ headerShown: false }} />
 
                     {/* admin panel  */}
                     < Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />
