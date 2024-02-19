@@ -1,19 +1,16 @@
 
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import { colors } from '../../styles/styles';
-import MyModal from './MyModal';
 
-const ProductListItem = ({ navigate, deleteHandler, i, id, price, stock, title, category, img }) => {
 
-    const [openModal, setOpenModal] = React.useState(false);
+const ProductListItem = ({ i, price, stock, title, category }) => {
+
 
     return (
         <>
             <TouchableOpacity
                 activeOpacity={-.9}
-                onLongPress={() => setOpenModal((prev) => !prev)}
-                onPress={() => navigate.navigate("productDetails", { id })}
             >
                 <View
                     style={{
@@ -21,14 +18,7 @@ const ProductListItem = ({ navigate, deleteHandler, i, id, price, stock, title, 
                         backgroundColor: i % 2 === 0 ? colors.color1 : colors.color3,
                     }}
                 >
-                    <Image
-                        source={img}
-                        style={{
-                            width: 40,
-                            height: 40,
-                            resizeMode: "contain",
-                        }}
-                    />
+
                     <Text
                         style={{
                             width: 60,
@@ -64,16 +54,7 @@ const ProductListItem = ({ navigate, deleteHandler, i, id, price, stock, title, 
                     </Text>
                 </View>
             </TouchableOpacity>
-            {
-                openModal && (
-                    <MyModal
-                        id={id}
-                        deleteHandler={deleteHandler}
-                        navigate={navigate}
-                        setOpenModal={setOpenModal}
-                    />
-                )
-            }
+
         </>
     )
 }

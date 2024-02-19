@@ -5,7 +5,7 @@ import { colors } from '../../styles/styles'
 const ProductListHeading = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Image</Text>
+            
             <Text style={styles.text}>Price</Text>
             <Text style={{ ...styles.text, width: null, maxWidth: 120 }}>Name</Text>
             <Text style={{ ...styles.text, width: 60 }}>Category</Text>

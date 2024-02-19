@@ -2,13 +2,15 @@ import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 
 import React, { useEffect, useState } from 'react'
 import { colors, defaultStyle, formHeading, formStyles, inputStyling } from '../styles/styles'
 import { Avatar, Button } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
-import { createProduct } from '../components/action/productAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearErrors, createProduct } from '../components/action/productAction';
 import mime from "mime";
+import Toast from 'react-native-toast-message';
+import { NEW_PRODUCT_RESET } from '../components/constant/productConstant';
 
 const NewDonation = ({ navigation, route }) => {
     const dispatch = useDispatch();
-
+    const { error, success } = useSelector((state) => state.newProduct);
     const [productName, setProductName] = useState("");
     const [description, setDescription] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("")
@@ -18,34 +20,6 @@ const NewDonation = ({ navigation, route }) => {
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
 
-    // const submitHandler = () => {
-    //     const productData = {
-    //         productName: productName,
-    //         description: description,
-    //         price: price,
-    //         quantity: quantity,
-    //         phoneNumber: phoneNumber,
-    //         location: location,
-    //         category: category,
-    //         file: {
-    //             uri: image,
-    //             type: mime.getType(image),
-    //             name: image.split("/").pop(),
-    //         }
-    //     };
-
-    //     const formData = new URLSearchParams();
-
-    //     for (const [key, value] of Object.entries(productData)) {
-    //         if (typeof value === 'object') {
-    //             formData.append(key, JSON.stringify(value));
-    //         } else {
-    //             formData.append(key, value);
-    //         }
-    //     }
-
-    //     dispatch(createProduct(formData));
-    // };
 
 
 
@@ -69,7 +43,19 @@ const NewDonation = ({ navigation, route }) => {
         dispatch(createProduct(myForm));
     };
 
+    useEffect(() => {
 
+        if (error) {
+            Toast.show(error);
+            dispatch(clearErrors())
+        }
+
+        if (success) {
+            Toast.show("Post new Product");
+            dispatch({ type: NEW_PRODUCT_RESET });
+        }
+
+    }, [error, success, dispatch]);
 
     useEffect(() => {
         if (route.params?.image) setImage(route.params.image);

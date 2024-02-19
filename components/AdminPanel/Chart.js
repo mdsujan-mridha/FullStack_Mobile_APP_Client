@@ -4,7 +4,7 @@ import { PieChart } from "react-native-chart-kit"
 import { colors } from '../../styles/styles'
 
 
-const screenWidth = Dimensions.get("screen").width - 60 - 75;
+const screenWidth = Dimensions.get("screen").width - 50 - 20;
 
 const Chart = ({ inStock = 0, outOfStock = 0 }) => {
 

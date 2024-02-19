@@ -11,8 +11,8 @@ const ButtonBox = ({icon, text, handler, reverse = false, loading = false}) => {
             activeOpacity={1}
             style={{
                 backgroundColor: reverse ? colors.color1 : colors.color3,
-                height: 80,
-                width: 80,
+                height: 90,
+                width: 85,
                 borderRadius: 20,
                 alignItems: 'center'
             }}
@@ -31,7 +31,6 @@ const ButtonBox = ({icon, text, handler, reverse = false, loading = false}) => {
                     textAlign: 'center'
                 }}
             >
-
                 {text}
             </Text>
 

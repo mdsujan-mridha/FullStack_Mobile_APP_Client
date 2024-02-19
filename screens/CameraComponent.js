@@ -1,10 +1,10 @@
 
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Camera, CameraType } from 'expo-camera'
 import { Avatar } from 'react-native-paper';
-import { colors } from '../styles/styles';
+import { colors, defaultStyle } from '../styles/styles';
 import * as ImagePicker from "expo-image-picker";
 
 const CameraComponent = ({ navigation, route }) => {
@@ -31,7 +31,7 @@ const CameraComponent = ({ navigation, route }) => {
                 image: data.assets[0].uri,
             });
         if (route.params?.updateProfile)
-            return navigation.navigate("profile", {
+            return navigation.navigate("Profile", {
                 image: data.assets[0].uri,
             });
         else
@@ -42,25 +42,41 @@ const CameraComponent = ({ navigation, route }) => {
 
     const clickPicture = async () => {
         const data = await camera.takePictureAsync();
-    
+
         if (route.params?.newProduct)
-          return navigation.navigate("donation", {
-            image: data.uri,
-          });
-    
+            return navigation.navigate("donation", {
+                image: data.uri,
+            });
+
         if (route.params?.updateProduct)
-          return navigation.navigate("productimages", {
-            image: data.uri,
-          });
+            return navigation.navigate("productimages", {
+                image: data.uri,
+            });
         if (route.params?.updateProfile)
-          return navigation.navigate("profile", {
-            image: data.uri,
-          });
+            return navigation.navigate("Profile", {
+                image: data.uri,
+            });
         else
-          return navigation.navigate("signup", {
-            image: data.uri,
-          });
-      };
+            return navigation.navigate("signup", {
+                image: data.uri,
+            });
+    };
+    useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === "granted");
+        })();
+    }, []);
+
+    if (hasPermission === null) return <View />;
+
+    if (hasPermission === false)
+        return (
+            <View style={defaultStyle}>
+                <Text>No access to camera</Text>
+            </View>
+        );
+
 
     return (
         <View
