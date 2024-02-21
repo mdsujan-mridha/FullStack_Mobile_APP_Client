@@ -2,36 +2,16 @@ import { View, Text, Dimensions, Image, ScrollView, Linking, TouchableOpacity, S
 import React, { useEffect, useRef, useState } from 'react'
 import { colors, defaultStyle } from '../styles/styles'
 import { Avatar } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors, getProductDetails } from '../components/action/productAction';
+
 
 import Loader from '../components/Layout/Loader';
 import Header from '../components/Header';
 
-
 const ProductDetails = ({ navigation, route: { params } }) => {
-
-    // const dispatch = useDispatch();
-    // console.log(params?.id)
     const id = params?.id;
-    // console.log(id);
-    // const { product, loading, error } = useSelector((state) => state?.productDetails);
     const [product, setProduct] = useState({});
     const loading = false;
 
-
-    // useEffect(() => {
-    //     try {
-    //         if (error) {
-    //             Toast.show(error);
-    //             dispatch(clearErrors())
-    //         }
-    //         dispatch(getProductDetails(params?.id))
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-
-    // }, [params]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,20 +29,13 @@ const ProductDetails = ({ navigation, route: { params } }) => {
     const handlePhoneNumberClick = () => {
         Linking.openURL(`tel:${product?.phoneNumber}`);
     };
-
-
-
     const image = product?.images ? product?.images[0]?.url : null;
-
-
     const handleLocationClick = () => {
         // Construct the Google Maps URL with the location parameter
         const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(product?.location)}`;
-
         // Open the URL in the default browser or the Google Maps app
         Linking.openURL(googleMapsUrl);
     };
-
     return (
         <View
             style={{

@@ -15,17 +15,13 @@ const CameraComponent = ({ navigation, route }) => {
     const openImagePicker = async () => {
         const permissionResult =
             await ImagePicker.requestMediaLibraryPermissionsAsync();
-
         if (permissionResult.granted === false)
             return alert("Permission to access gallery is required");
-
         const data = await ImagePicker.launchImageLibraryAsync();
-
         if (route.params?.newProduct)
             return navigation.navigate("donation", {
                 image: data.assets[0].uri,
             });
-
         if (route.params?.updateProduct)
             return navigation.navigate("productimages", {
                 image: data.assets[0].uri,
@@ -35,7 +31,7 @@ const CameraComponent = ({ navigation, route }) => {
                 image: data.assets[0].uri,
             });
         else
-            return navigation.navigate("signup", {
+            return navigation.navigate("Register", {
                 image: data.assets[0].uri,
             });
     };
@@ -57,7 +53,7 @@ const CameraComponent = ({ navigation, route }) => {
                 image: data.uri,
             });
         else
-            return navigation.navigate("signup", {
+            return navigation.navigate("Register", {
                 image: data.uri,
             });
     };
@@ -76,8 +72,6 @@ const CameraComponent = ({ navigation, route }) => {
                 <Text>No access to camera</Text>
             </View>
         );
-
-
     return (
         <View
             style={{
@@ -93,7 +87,6 @@ const CameraComponent = ({ navigation, route }) => {
                 ratio={"1:1"}
                 ref={(e) => setCamera(e)}
             />
-
             <View
                 style={{
                     flexDirection: "row",
@@ -129,7 +122,6 @@ const MyIcon = ({ icon, handler }) => (
         />
     </TouchableOpacity>
 );
-
 
 export default CameraComponent
 

@@ -1,23 +1,21 @@
-import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors, defaultStyle, formHeading } from '../styles/styles'
 import { useDispatch, useSelector } from 'react-redux';
 import { useMessageAndErrorUser } from '../utils/hooks'
 import Loader from '../components/Layout/Loader';
 import { Avatar, Button, Dialog, Portal } from 'react-native-paper';
-import defaultImg from "../assets/profile/profile.jpg";
+import { defaultImg } from "../assets/profile/profile.jpg";
 import Chart from '../components/AdminPanel/Chart';
 import ButtonBox from '../utils/ButtonBox';
 import ProductListHeading from '../components/Product/ProductListHeading';
 import ProductListItem from '../components/Product/ProductListItem';
-import { loadUser } from '../components/action/userAction';
+
 
 const Profile = ({ navigation, route }) => {
   const { user } = useSelector((state) => state.user);
   // console.log(user);
-
   const [avatar, setAvatar] = useState(defaultImg);
-
   const [allProducts, setAllProducts] = useState([]);
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -30,26 +28,22 @@ const Profile = ({ navigation, route }) => {
       .then(res => res.json())
       .then(data => setAllProducts(data.products))
   }, [])
-
-  const inStock = 12;
+  const inStock = allProducts.length;
   const outOfStock = 5;
-
-  // const loadingPic = useMessageAndErrorOther(dispatch, null, null, loadUser);
-
   useEffect(() => {
     if (route.params?.image) {
       setAvatar(route.params.image)
     }
-    // dispatch(loadUser())
-  }, []);
 
-  // console.log(route.params);
+  }, []);
 
   useEffect(() => {
     if (user?.avatar) {
       setAvatar(user.avatar.url);
     }
   }, [user]);
+
+  // console.log(user);
 
   return (
     <>
@@ -65,9 +59,12 @@ const Profile = ({ navigation, route }) => {
             (
               <>
                 <View style={styles.container}>
-                  <Image
-                    source={avatar}
-                    style={{ backgroundColor: colors.color1, width: 100, height: 100, borderRadius: 100 }}
+                  <Avatar.Image
+                    source={{
+                      uri: avatar,
+                    }}
+                    size={100}
+                    style={{ backgroundColor: colors.color1 }}
                   />
                   <TouchableOpacity
                     onPress={() =>
@@ -75,7 +72,6 @@ const Profile = ({ navigation, route }) => {
                     }
                   >
                     <Button
-
                       textColor={colors.color1}
                     >
                       Change Photo

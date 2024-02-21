@@ -1,64 +1,56 @@
 
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React, { Fragment, useEffect, useState } from 'react'
-import { Button } from 'react-native-paper'
-
-import axios from 'axios'
+import { Avatar, Button } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import { registerUser } from '../components/action/userAction'
+import { clearErrors, registerUser } from '../components/action/userAction'
 import Loader from '../components/Layout/Loader'
+import { defaultImg } from "../assets/profile/profile.jpg";
+import mime from "mime";
+import { colors } from '../styles/styles'
+import Toast from 'react-native-toast-message'
 
-const Register = () => {
-    const [name, setName] = useState("")
+const Register = ({ navigation, route }) => {
+    const [name, setName] = useState("");
+    const [avatar, setAvatar] = useState("");
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
     const dispatch = useDispatch();
     const { loading, error, isAuthenticated } = useSelector((state) => state.user);
-    // const registerHandler = () => {
-    //     const myForm = new FormData();
-
-    //     myForm.append("name", name);
-    //     myForm.append("email", email);
-    //     myForm.append("password", password);
-    //     setUserData(myForm)
-    //     console.log(myForm);
-    // }
-
-    // const register = async () => {
-    //     try {
-    //         const response = await axios.post('https://emerald-capybara-slip.cyclic.cloud/api/v1/register', {
-    //             name: name,
-    //             email: email,
-    //             password: password
-    //         })
-    //         console.log(response?.data?.success)
-    //         if (response?.data?.success) {
-    //             alert('Logged in')
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //         alert(error)
-    //     }
-    // }
-
-
-
     const register = (e) => {
-        e.preventDefault();
-        dispatch(registerUser(name, email, password))
+        const myForm = new FormData();
+        myForm.append("name", name);
+        myForm.append("email", email);
+        myForm.append("password", password);
+        if (avatar !== "") {
+            myForm.append("file", {
+                uri: avatar,
+                type: mime.getType(avatar),
+                name: avatar.split("/").pop(),
+            })
+        }
+        dispatch(registerUser(myForm))
     }
-
     useEffect(() => {
         if (error) {
-            console.log(error);
-            alert(error);
-
+            Toast.show({
+                type: 'error',
+                text1: error,
+            });
+            dispatch(clearErrors)
         }
         if (isAuthenticated === true) {
-            alert("You are logged in!")
+            Toast.show({
+                type: 'success',
+                text1: "Register Successfully",
+            });
+            navigation.navigate("Login")
         }
-    }, [error, isAuthenticated])
+    }, [error, isAuthenticated]);
+
+    useEffect(() => {
+        if (route.params?.image) setAvatar(route.params.image);
+    }, [route.params]);
 
     return (
         <Fragment>
@@ -80,6 +72,19 @@ const Register = () => {
                                     width: "70%"
                                 }}
                             >
+                                <Avatar.Image
+                                    style={{
+                                        alignSelf: "center",
+                                        backgroundColor: colors.color1,
+                                    }}
+                                    size={80}
+                                    source={{
+                                        uri: avatar ? avatar : defaultImg,
+                                    }}
+                                />
+                                <TouchableOpacity onPress={() => navigation.navigate("camera")}>
+                                    <Button textColor={colors.color1}>Change Photo</Button>
+                                </TouchableOpacity>
                                 <TextInput
                                     style={Styles.input}
                                     placeholder="Name"

@@ -59,16 +59,16 @@ export const loginUser = (email, password) => async (dispatch) => {
     }
 }
 
-export const registerUser = (name, email, password) => async (dispatch) => {
+export const registerUser = (userData) => async (dispatch) => {
     try {
 
         dispatch({ type: REGISTER_REQUEST })
         const config = {
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "multipart/form-data"
             }
         }
-        const { data } = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/register`, { name, email, password }, config)
+        const data = await axios.post(`https://emerald-capybara-slip.cyclic.cloud/api/v1/register`, userData, config)
         dispatch({
             type: REGISTER_SUCCESS,
             payload: data.user,
