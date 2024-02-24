@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { colors, defaultStyle, formHeading, formStyles, inputStyling } from '../styles/styles'
 import { Avatar, Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,18 @@ import { clearErrors, createProduct } from '../components/action/productAction';
 import mime from "mime";
 import Toast from 'react-native-toast-message';
 import { NEW_PRODUCT_RESET } from '../components/constant/productConstant';
+
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+    }),
+});
+
 
 const NewDonation = ({ navigation, route }) => {
     const dispatch = useDispatch();
@@ -20,8 +32,88 @@ const NewDonation = ({ navigation, route }) => {
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
 
+    //======================= notification============================
+
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token => {
+            // console.log("token", token);
+            setExpoPushToken(token);
+        });
+
+    }, [])
+
+    // send notification handler function 
+    const sendNotificationHandler = async () => {
+        // Object for notification
+        const message = {
+            to: expoPushToken,
+            sound: "default",
+            title: "New Donation Available",
+            body: `${productName} has been listed as available for donation by ${phoneNumber}`,
+        };
+
+        await fetch("https://exp.host/--/api/v2/push/send", {
+            method: "POST",
+            headers: {
+                host: "exp.host",
+                accept: "application/json",
+                "content-type": "application/json", // Corrected header field name
+            },
+            body: JSON.stringify(message),
+        });
+    };
 
 
+    //   =====================notification function =================
+    async function registerForPushNotificationsAsync() {
+        let token;
+
+        if (Platform.OS === 'android') {
+            await Notifications.setNotificationChannelAsync('default', {
+                name: 'default',
+                importance: Notifications.AndroidImportance.MAX,
+                vibrationPattern: [0, 250, 250, 250],
+                lightColor: '#FF231F7C',
+            });
+        }
+
+        if (Device.isDevice) {
+            const { status: existingStatus } = await Notifications.getPermissionsAsync();
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const { status } = await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                alert('Failed to get push token for push notification!');
+                return;
+            }
+            // Learn more about projectId:
+            // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
+            token = (await Notifications.getExpoPushTokenAsync({ projectId: '770f48a4-892b-45f4-9278-4fdfab42e66f' })).data;
+            console.log(token);
+        } else {
+            alert('Must use physical device for Push Notifications');
+        }
+
+        return token;
+    }
+
+    const clearForm = () => {
+        setProductName("");
+        setDescription("");
+        setLocation("");
+        setPrice("");
+        setQuantity("");
+        setCategory("");
+        setPhoneNumber("");
+        setImage(""); // Assuming you want to clear the image as well
+    };
 
     const submitHandler = () => {
         const myForm = new FormData();
@@ -41,6 +133,7 @@ const NewDonation = ({ navigation, route }) => {
         // if (categoryID) myForm.append("category", categoryID);
 
         dispatch(createProduct(myForm));
+        clearForm(); // Clear the form after submission
     };
 
     useEffect(() => {
@@ -51,8 +144,13 @@ const NewDonation = ({ navigation, route }) => {
         }
 
         if (success) {
-            Toast.show("Post new Product");
+            Toast.show({
+                type: 'success',
+                text1: "Your Donation Add successfully",
+            });
+
             dispatch({ type: NEW_PRODUCT_RESET });
+            clearForm(); // Clear the form after submission
         }
 
     }, [error, success, dispatch]);
@@ -151,7 +249,10 @@ const NewDonation = ({ navigation, route }) => {
                     style={{ ...inputStyling, borderColor: '#000000', borderWidth: 1, borderRadius: 10, marginBottom: 10, paddingLeft: 10 }}
                 />
                 <Button
-                    onPress={submitHandler}
+                    onPress={() => {
+                        submitHandler();
+                        sendNotificationHandler();
+                    }}
                     style={{ backgroundColor: "rgba(227,25,99,1)", }}>
                     <Text style={{ color: "#ffff", fontSize: 17, fontWeight: 900 }}> Donate </Text> </Button>
             </ScrollView>

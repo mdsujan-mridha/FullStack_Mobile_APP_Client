@@ -67,13 +67,13 @@ const Home = () => {
 
     // Check if category is set
     if (category) {
-        apiUrl += `?category=${category}`;
+      apiUrl += `?category=${category}`;
     }
 
     fetch(apiUrl)
-        .then(res => res.json())
-        .then(data => setAllProducts(data.products))
-}, [category])
+      .then(res => res.json())
+      .then(data => setAllProducts(data.products))
+  }, [category])
 
 
   // console.log(category)
@@ -84,14 +84,11 @@ const Home = () => {
   }
 
   // console.log(search)
-  const filterProduct = products?.filter((product) =>
-    (typeof product.name === 'string' && product.name.toLowerCase().includes(search.toLowerCase()))
+  const filterProduct = allProducts?.filter((product) =>
+    (typeof product.productName === 'string' && product.productName.toLowerCase().includes(search.toLowerCase()))
   )
-
-
   return (
     <>
-
       <View style={{
         defaultStyle
       }}>
@@ -185,12 +182,13 @@ const Home = () => {
                 marginBottom: 20
               }}>
                 {
-                  allProducts &&
-                  allProducts?.map((item) => (
+                  filterProduct &&
+                  filterProduct?.map((item,index) => (
                     <ProductCard
                       item={item}
                       key={item._id}
                       id={item?._id}
+                      i={index}
                       image={item?.images[0]?.url}
                       navigate={navigate}
                     />

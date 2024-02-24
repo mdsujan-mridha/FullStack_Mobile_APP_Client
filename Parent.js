@@ -24,13 +24,15 @@ import Chat from './screens/Chat';
 
 
 const Stack = createNativeStackNavigator();
-const Parent = () => {
+
+export default function Parent() {
+    
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(loadUser())
     }, [dispatch])
 
-    const { loading, isAuthenticated, user } = useSelector((state) => state.user);
+    const { loading, isAuthenticated } = useSelector((state) => state.user);
 
     return (
         loading ? <Loader />
@@ -61,4 +63,3 @@ const Parent = () => {
     )
 }
 
-export default Parent

@@ -1,5 +1,5 @@
 {
-  "expo": { 
+  "expo": {
     "plugins": [
       [
         "expo-camera",
@@ -19,7 +19,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-  
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -30,10 +29,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.sujan1204.donationclient"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "770f48a4-892b-45f4-9278-4fdfab42e66f"
+      }
     }
   }
 }

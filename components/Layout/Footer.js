@@ -23,7 +23,6 @@ const Footer = () => {
         if (isAuthenticated === false) {
             navigation.navigate("Login")
         }
-
     }, [isAuthenticated,navigation])
 
     return (

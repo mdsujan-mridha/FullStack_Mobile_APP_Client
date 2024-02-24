@@ -70,10 +70,9 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                         backgroundColor: colors.color2,
                                         padding: 25,
                                         flex: 1,
-                                        marginTop: -50,
+                                        marginTop: -70,
                                         borderTopLeftRadius: 55,
                                         borderTopRightRadius: 55,
-
                                     }}
                                 >
                                     <Text
@@ -95,6 +94,18 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                     >
                                         {product?.description}
                                     </Text>
+                                    <Text
+                                        style={{
+                                            textAlign: 'justify',
+                                            marginRight: 20,
+                                            fontSize: 16,
+                                            fontWeight: 500,
+                                            opacity: 0.6,
+                                            marginTop: 10,
+                                        }}
+                                    >
+                                       Expire Date: {product?.expireDate}
+                                    </Text>
                                     <View style={{
                                         marginTop: 20,
                                     }}>
@@ -105,7 +116,6 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                                 alignItems: "center",
                                             }}
                                         >
-
                                             <TouchableOpacity
                                                 onPress={handleLocationClick}
                                             >

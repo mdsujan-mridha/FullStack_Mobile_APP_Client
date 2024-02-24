@@ -1,23 +1,19 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/AntDesign';
+import { colors } from '../styles/styles';
 
-const ProductCard = ({ item, id, navigate, image }) => {
-
-
-    // console.log(image);
-    // console.log(item);
-    // console.log(id)
+const ProductCard = ({ item, id, navigate, image,i }) => {
     return (
         <TouchableOpacity style={{
             width: '100%',
             height: 160,
-            backgroundColor: '#fff',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexDirection: 'row',
-            gap: 15
+            gap: 15,
+            backgroundColor: i % 2 === 0 ? colors.color1 : colors.color3,
         }}
             activeOpacity={1}
             onPress={() => navigate.navigate("productdetails", { id })}
@@ -30,7 +26,6 @@ const ProductCard = ({ item, id, navigate, image }) => {
                     source={{
                         uri: image,
                     }}
-
                     style={{
                         width: 140,
                         height: 140,
@@ -49,25 +44,26 @@ const ProductCard = ({ item, id, navigate, image }) => {
                         fontSize: 25,
                         fontWeight: 700,
                         marginLeft: 0,
-                        marginRight: 5
-
+                        marginRight: 5,
+                        color:"#fff"
                     }}
-                > {item?.name} </Text>
+                > {item?.productName} </Text>
                 <Text
                     style={{
                         textAlign: 'justify',
                         marginRight: 20,
                         fontSize: 16,
                         fontWeight: 500,
-                        opacity: 0.6
+                        opacity: 0.6,
+                        color:"#fff"
                     }}
                 >
                     {item?.description}
                 </Text>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <Text style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}> <Text> <Icon name='tags' size={20} color="#808080" ></Icon> </Text>  <Text> {item?.price}  </Text>  </Text>
+                    <Text style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}> <Text> <Icon name='tags' size={20} color="#fff" ></Icon> </Text>  <Text style={{color:"#fff" }}> {item?.price}  </Text>  </Text>
                     <Text>
-                        <Text><Icon name='areachart' size={20} color="#808080" ></Icon> </Text> <Text> {item?.location} </Text>
+                        <Text><Icon name='areachart' size={20} color="#fff" ></Icon> </Text> <Text style={{color:"#fff" }}> {item?.location} </Text>
                     </Text>
                 </View>
             </View>
