@@ -8,7 +8,7 @@ const Chat = () => {
 
     const socket = useMemo(
         () =>
-            io("https://emerald-capybara-slip.cyclic.cloud", {
+            io("http://192.168.31.41:5000", {
                 withCredentials: true,
             }),
         []
@@ -17,34 +17,35 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
 
-    const messageHandler = (e) => {
+    //    select type 
+    const sendMessage = (messageContent) => {
+        const newMessage = { content: messageContent, type: "sent" };
+        setMessages([...messages, newMessage]);
+        // emit the message 
+        socket.emit("message", messageContent);
+
+    }
+
+    const messageHandler = () => {
         socket.emit("message", message);
+        console.log(message);
         setMessage("");
     }
 
     useEffect(() => {
-
-        socket.on("connect", () => {
-            console.log("connected", socket.id);
-        });
-
-        socket.on("receive-message", (data) => {
-            console.log(data);
-            setMessages((messages) => [...messages, data]);
-
-        })
-
-        socket.on("welcome", (s) => {
-            console.log(s);
+        // Listener for receiving messages
+        socket.on("receive-message", (receivedMessage) => {
+            const newMessage = { content: receivedMessage, type: "received" };
+            setMessages([...messages, newMessage]);
         });
 
         return () => {
-            socket.disconnect();
+            // Clean up socket listener
+            socket.off("receive-message");
         };
+    }, [messages]);
 
-    }, [socket]);
-
-    console.log(messages);
+    // console.log(messages);
 
     return (
         <KeyboardAvoidingView
@@ -56,7 +57,15 @@ const Chat = () => {
                 <View style={{ marginBottom: 20 }}>
                     <Text style={formHeading}> Donate Your food! </Text>
                 </View>
-
+                <View>
+                    {messages.map((msg, index) => (
+                        <View key={index} style={{ flexDirection: 'row', justifyContent: msg.type === "sent" ? 'flex-end' : 'flex-start', marginBottom: 10 }}>
+                            <View style={{ backgroundColor: msg.type === "sent" ? colors.color3 : colors.color2, borderRadius: 10, paddingHorizontal: 10, paddingVertical: 5 }}>
+                                <Text style={{ color: msg.type === "sent" ? colors.color2 : colors.color1 }}>{msg.content}</Text>
+                            </View>
+                        </View>
+                    ))}
+                </View>
 
 
                 <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
@@ -81,13 +90,7 @@ const Chat = () => {
                         <Text style={{ color: colors.color2 }}> Send </Text>
                     </Button>
                 </View>
-                <View>
-                    {
-                        messages?.map((m, i) => (
-                            <Text key={i}> {m} </Text>
-                        ))
-                    }
-                </View>
+
             </View>
         </KeyboardAvoidingView>
     )

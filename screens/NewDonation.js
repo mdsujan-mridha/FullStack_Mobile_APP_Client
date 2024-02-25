@@ -96,7 +96,7 @@ const NewDonation = ({ navigation, route }) => {
             // Learn more about projectId:
             // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
             token = (await Notifications.getExpoPushTokenAsync({ projectId: '770f48a4-892b-45f4-9278-4fdfab42e66f' })).data;
-            console.log(token);
+            // console.log(token);
         } else {
             alert('Must use physical device for Push Notifications');
         }
@@ -114,7 +114,7 @@ const NewDonation = ({ navigation, route }) => {
         setPhoneNumber("");
         setImage(""); // Assuming you want to clear the image as well
     };
-
+    //=========================== new donation handler ======================================
     const submitHandler = () => {
         const myForm = new FormData();
         myForm.append("productName", productName);
@@ -133,13 +133,19 @@ const NewDonation = ({ navigation, route }) => {
         // if (categoryID) myForm.append("category", categoryID);
 
         dispatch(createProduct(myForm));
-        clearForm(); // Clear the form after submission
+        // console.log(myForm);
+        clearForm();
+
     };
 
     useEffect(() => {
 
         if (error) {
-            Toast.show(error);
+            Toast.show({
+                type: 'error',
+                text1: error,
+            });
+            console.log(error);
             dispatch(clearErrors())
         }
 

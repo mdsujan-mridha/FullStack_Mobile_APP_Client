@@ -68,9 +68,9 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                 <View
                                     style={{
                                         backgroundColor: colors.color2,
-                                        padding: 25,
+                                        padding: 10,
                                         flex: 1,
-                                        marginTop: -70,
+                                        marginTop: -80,
                                         borderTopLeftRadius: 55,
                                         borderTopRightRadius: 55,
                                     }}
@@ -81,7 +81,7 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                             fontSize: 25,
                                             textAlign: 'center'
                                         }}
-                                    > {product?.name} </Text>
+                                    > {product?.productName} </Text>
                                     <Text
                                         style={{
                                             textAlign: 'justify',
@@ -119,14 +119,14 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                             <TouchableOpacity
                                                 onPress={handleLocationClick}
                                             >
-                                                <Text style={{ fontSize: 18, fontWeight: 900 }}> Collection Details: {product?.location}
+                                                <Text style={{ fontSize: 14, fontWeight: 900 }}> Collection Details: {product?.location}
                                                 </Text>
                                             </TouchableOpacity>
 
                                             <Avatar.Icon size={30} icon="google-maps" style={{ marginTop: 10 }} />
                                         </View>
                                         <TouchableOpacity onPress={handlePhoneNumberClick}>
-                                            <Text style={{ fontSize: 18, fontWeight: 900 }}>
+                                            <Text style={{ fontSize: 13, fontWeight: 900 }}>
                                                 Phone Number: {product?.phoneNumber}
                                             </Text>
                                         </TouchableOpacity>
