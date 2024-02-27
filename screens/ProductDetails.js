@@ -12,6 +12,7 @@ const ProductDetails = ({ navigation, route: { params } }) => {
 
     const { user } = useSelector((state) => state.user);
     const isAdmin = user.role === 'admin';
+    const isVolunteer = user.role === "volunteer";
 
     const id = params?.id;
     const [product, setProduct] = useState({});
@@ -33,13 +34,13 @@ const ProductDetails = ({ navigation, route: { params } }) => {
 
     const handlePhoneNumberClick = () => {
 
-        if (isAdmin) {
+        if (isAdmin || isVolunteer) {
             Linking.openURL(`tel:${product?.phoneNumber}`);
         }
     };
     const image = product?.images ? product?.images[0]?.url : null;
     const handleLocationClick = () => {
-        if (isAdmin) {
+        if (isAdmin || isVolunteer) {
             // Construct the Google Maps URL with the location parameter
             const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(product?.location)}`;
             // Open the URL in the default browser or the Google Maps app
@@ -129,7 +130,7 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                             <TouchableOpacity
                                                 onPress={handleLocationClick}
                                             >
-                                                <Text style={{ fontSize: 14, fontWeight: 900 }}> Collection Details: {isAdmin ? product?.location : ""}
+                                                <Text style={{ fontSize: 14, fontWeight: 900 }}> Collection Details: {isAdmin || isVolunteer ? product?.location : ""}
                                                 </Text>
                                             </TouchableOpacity>
 
@@ -137,11 +138,11 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                         </View>
                                         <TouchableOpacity onPress={handlePhoneNumberClick}>
                                             <Text style={{ fontSize: 13, fontWeight: 900 }}>
-                                                Phone Number: {isAdmin ? product?.phoneNumber : ""}
+                                                Phone Number: {isAdmin || isVolunteer ? product?.phoneNumber : ""}
                                             </Text>
                                         </TouchableOpacity>
                                         {
-                                            isAdmin ?
+                                            isAdmin || isVolunteer ?
                                                 <>
                                                     <TouchableOpacity
                                                         style={{

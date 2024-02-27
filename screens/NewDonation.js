@@ -11,6 +11,8 @@ import { NEW_PRODUCT_RESET } from '../components/constant/productConstant';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 
+
+
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
         shouldShowAlert: true,
@@ -31,6 +33,9 @@ const NewDonation = ({ navigation, route }) => {
     const [quantity, setQuantity] = useState();
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
+    const [date, setDate] = useState("");
+
+
 
     //======================= notification============================
 
@@ -236,6 +241,14 @@ const NewDonation = ({ navigation, route }) => {
                     onChangeText={setPrice}
                     style={{ ...inputStyling, borderColor: '#000000', borderWidth: 1, borderRadius: 10, marginBottom: 10, paddingLeft: 10 }}
                 />
+                <TextInput
+                    placeholder='Expire date'
+                    value={date}
+                    onChangeText={setDate}
+                    style={{ ...inputStyling, borderColor: '#000000', borderWidth: 1, borderRadius: 10, marginBottom: 10, paddingLeft: 10 }}
+                />
+
+
                 <TextInput
                     placeholder='quantity'
                     value={quantity}
