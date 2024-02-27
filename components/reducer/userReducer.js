@@ -38,7 +38,11 @@ import {
     UPDATE_USER_SUCCESS,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
-    USER_DETAILS_SUCCESS
+    USER_DETAILS_SUCCESS,
+    UPDATE_PIC_REQUEST,
+    UPDATE_PIC_SUCCESS,
+    UPDATE_PIC_FAIL,
+    UPDATE_PIC_RESET
 } from "../constant/userConstant";
 
 
@@ -60,7 +64,7 @@ export const userReducer = (state = { user: {} }, action) => {
                 isAuthenticated: true,
                 user: action.payload,
             }
-            
+
         case LOGOUT_SUCCESS:
             return {
                 loading: false,
@@ -106,6 +110,7 @@ export const profileReducer = (state = {}, action) => {
         case UPDATE_PASSWORD_REQUEST:
         case DELETE_USER_REQUEST:
         case UPDATE_USER_REQUEST:
+        case UPDATE_PIC_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -114,6 +119,7 @@ export const profileReducer = (state = {}, action) => {
         case UPDATE_PROFILE_SUCCESS:
         case UPDATE_PASSWORD_SUCCESS:
         case UPDATE_USER_SUCCESS:
+        case UPDATE_PIC_SUCCESS:
 
             return {
                 ...state,
@@ -131,6 +137,7 @@ export const profileReducer = (state = {}, action) => {
         case UPDATE_PASSWORD_FAIL:
         case DELETE_USER_FAIL:
         case UPDATE_USER_FAIL:
+        case UPDATE_PIC_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -139,6 +146,7 @@ export const profileReducer = (state = {}, action) => {
         case UPDATE_PROFILE_RESET:
         case UPDATE_PASSWORD_RESET:
         case UPDATE_USER_RESET:
+        case UPDATE_PIC_RESET:
             return {
                 ...state,
                 isUpdated: false,

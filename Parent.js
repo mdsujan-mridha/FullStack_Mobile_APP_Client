@@ -21,12 +21,13 @@ import UpdateProfile from './screens/UpdateProfile';
 import UpdateTodo from './screens/UpdateTodo';
 import CameraComponent from './screens/CameraComponent';
 import Chat from './screens/Chat';
+import UpdateProfilePic from './screens/UpdateProfilePic';
 
 
 const Stack = createNativeStackNavigator();
 
 export default function Parent() {
-    
+
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(loadUser())
@@ -52,6 +53,7 @@ export default function Parent() {
                     <Stack.Screen name='updateprofile' component={UpdateProfile} options={{ headerShown: false }} />
                     <Stack.Screen name='camera' component={CameraComponent} options={{ headerShown: false }} />
                     <Stack.Screen name='chat' component={Chat} options={{ headerShown: false }} />
+                    <Stack.Screen name='updateprofilepic' component={UpdateProfilePic} options={{ headerShown: false }} />
 
                     {/* admin panel  */}
                     < Stack.Screen name='adminpanel' component={AdminPanel} options={{ headerShown: false }} />

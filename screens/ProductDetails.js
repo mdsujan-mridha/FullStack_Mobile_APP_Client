@@ -6,8 +6,13 @@ import { Avatar } from 'react-native-paper';
 
 import Loader from '../components/Layout/Loader';
 import Header from '../components/Header';
+import { useSelector } from 'react-redux';
 
 const ProductDetails = ({ navigation, route: { params } }) => {
+
+    const { user } = useSelector((state) => state.user);
+    const isAdmin = user.role === 'admin';
+
     const id = params?.id;
     const [product, setProduct] = useState({});
     const loading = false;
@@ -27,14 +32,19 @@ const ProductDetails = ({ navigation, route: { params } }) => {
     }, [id]);
 
     const handlePhoneNumberClick = () => {
-        Linking.openURL(`tel:${product?.phoneNumber}`);
+
+        if (isAdmin) {
+            Linking.openURL(`tel:${product?.phoneNumber}`);
+        }
     };
     const image = product?.images ? product?.images[0]?.url : null;
     const handleLocationClick = () => {
-        // Construct the Google Maps URL with the location parameter
-        const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(product?.location)}`;
-        // Open the URL in the default browser or the Google Maps app
-        Linking.openURL(googleMapsUrl);
+        if (isAdmin) {
+            // Construct the Google Maps URL with the location parameter
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(product?.location)}`;
+            // Open the URL in the default browser or the Google Maps app
+            Linking.openURL(googleMapsUrl);
+        }
     };
     return (
         <View
@@ -104,7 +114,7 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                             marginTop: 10,
                                         }}
                                     >
-                                       Expire Date: {product?.expireDate}
+                                        Expire Date: {product?.expireDate}
                                     </Text>
                                     <View style={{
                                         marginTop: 20,
@@ -119,7 +129,7 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                             <TouchableOpacity
                                                 onPress={handleLocationClick}
                                             >
-                                                <Text style={{ fontSize: 14, fontWeight: 900 }}> Collection Details: {product?.location}
+                                                <Text style={{ fontSize: 14, fontWeight: 900 }}> Collection Details: {isAdmin ? product?.location : ""}
                                                 </Text>
                                             </TouchableOpacity>
 
@@ -127,32 +137,39 @@ const ProductDetails = ({ navigation, route: { params } }) => {
                                         </View>
                                         <TouchableOpacity onPress={handlePhoneNumberClick}>
                                             <Text style={{ fontSize: 13, fontWeight: 900 }}>
-                                                Phone Number: {product?.phoneNumber}
+                                                Phone Number: {isAdmin ? product?.phoneNumber : ""}
                                             </Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={{
-                                                marginTop: 20,
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                gap: 5,
-                                                backgroundColor: colors.color3,
-                                                height: 40,
-                                                borderRadius: 20
-                                            }}
-                                            onPress={() => navigation.navigate("chat")}
-                                        >
-                                            <Text
-                                                style={{
-                                                    color: colors.color2,
-                                                    fontSize: 16,
-                                                    fontWeight: 800
-                                                }}
-                                            > Chat with donar </Text>
-                                            <Avatar.Icon size={20} icon="message" />
-                                        </TouchableOpacity>
+                                        {
+                                            isAdmin ?
+                                                <>
+                                                    <TouchableOpacity
+                                                        style={{
+                                                            marginTop: 20,
+                                                            display: "flex",
+                                                            flexDirection: "row",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            gap: 5,
+                                                            backgroundColor: colors.color3,
+                                                            height: 40,
+                                                            borderRadius: 20
+                                                        }}
+                                                        onPress={() => navigation.navigate("chat")}
+                                                    >
+                                                        <Text
+                                                            style={{
+                                                                color: colors.color2,
+                                                                fontSize: 16,
+                                                                fontWeight: 800
+                                                            }}
+                                                        > Chat with donar </Text>
+                                                        <Avatar.Icon size={20} icon="message" />
+                                                    </TouchableOpacity>
+                                                </>
+                                                :
+                                                <></>
+                                        }
                                     </View>
                                 </View>
                             </>

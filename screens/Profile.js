@@ -10,6 +10,8 @@ import Chart from '../components/AdminPanel/Chart';
 import ButtonBox from '../utils/ButtonBox';
 import ProductListHeading from '../components/Product/ProductListHeading';
 import ProductListItem from '../components/Product/ProductListItem';
+import mime from "mime";
+import { loadUser, updatePic } from '../components/action/userAction';
 
 
 const Profile = ({ navigation, route }) => {
@@ -30,12 +32,23 @@ const Profile = ({ navigation, route }) => {
   }, [])
   const inStock = allProducts.length;
   const outOfStock = 5;
+
   useEffect(() => {
     if (route.params?.image) {
       setAvatar(route.params.image)
+      const myForm = new FormData();
+      myForm.append("file", {
+        uri: route.params.image,
+        type: mime.getType(route.params.image),
+        name: route.params.image.split("/").pop(),
+      });
+      // console.log("Form data is:-",myForm);
+      dispatch(updatePic(myForm))
     }
+    // dispatch(loadUser())
 
-  }, []);
+  }, [route.params, dispatch]);
+
 
   useEffect(() => {
     if (user?.avatar) {
@@ -44,6 +57,7 @@ const Profile = ({ navigation, route }) => {
   }, [user]);
 
   // console.log(user);
+  // console.log(route.params.image);
 
   return (
     <>
@@ -110,6 +124,7 @@ const Profile = ({ navigation, route }) => {
                       <Dialog.Content>
                         <Button onPress={() => { navigation.navigate("updateprofile"); showDialog(false); }}> <Text> Update profile </Text> </Button>
                         <Button onPress={() => { navigation.navigate("updatepassword"); showDialog(false); }}> <Text> Update password </Text> </Button>
+                     
                       </Dialog.Content>
                       <Dialog.Actions>
                         <Button onPress={hideDialog}>Thank you!</Button>

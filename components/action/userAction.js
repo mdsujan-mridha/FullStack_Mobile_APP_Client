@@ -27,6 +27,9 @@ import {
     UPDATE_PASSWORD_FAIL,
     UPDATE_PASSWORD_REQUEST,
     UPDATE_PASSWORD_SUCCESS,
+    UPDATE_PIC_FAIL,
+    UPDATE_PIC_REQUEST,
+    UPDATE_PIC_SUCCESS,
     UPDATE_PROFILE_FAIL,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
@@ -125,14 +128,33 @@ export const updateProfile = (userData) => async (dispatch) => {
 
         dispatch({ type: UPDATE_PROFILE_REQUEST });
         // const config = { headers: { "Content-Type": "multipart/form-data" } };
-        console.log(userData);
+        // console.log(userData);
         const { data } = await axios.put(`https://emerald-capybara-slip.cyclic.cloud/api/v1/update-profile`, userData);
         dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success })
-        console.log(data)
+        // console.log(data)
 
     } catch (error) {
         dispatch({
             type: UPDATE_PROFILE_FAIL,
+            payload: error.response.data.message,
+        })
+    }
+
+}
+
+export const updatePic = (userData) => async (dispatch) => {
+
+    try {
+
+        dispatch({ type: UPDATE_PIC_REQUEST });
+        // const config = { headers: { "Content-Type": "multipart/form-data" } };
+        console.log(userData);
+        const { data } = await axios.put(`https://emerald-capybara-slip.cyclic.cloud/api/v1/update-pic`, userData);
+        dispatch({ type: UPDATE_PIC_SUCCESS, payload: data.success })
+        console.log(data)
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PIC_FAIL,
             payload: error.response.data.message,
         })
     }

@@ -61,4 +61,10 @@ export const DELETE_USER_FAIL = "DELETE_USER_FAIL";
 export const DELETE_USER_RESET = "DELETE_USER_RESET";
 
 // clear error
+// update profile 
+export const UPDATE_PIC_REQUEST = "UPDATE_PIC_REQUEST";
+export const UPDATE_PIC_SUCCESS = "UPDATE_PIC_SUCCESS";
+export const UPDATE_PIC_RESET = "UPDATE_PIC_RESET";
+export const UPDATE_PIC_FAIL = "UPDATE_PIC_FAIL";
+
 export const CLEAR_ERRORS = "CLEAR_ERRORS ";

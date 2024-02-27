@@ -17,6 +17,7 @@ const Register = ({ navigation, route }) => {
     const [password, setPassword] = useState("")
     const dispatch = useDispatch();
     const { loading, error, isAuthenticated } = useSelector((state) => state.user);
+
     const register = (e) => {
         const myForm = new FormData();
         myForm.append("name", name);
@@ -31,6 +32,7 @@ const Register = ({ navigation, route }) => {
         }
         dispatch(registerUser(myForm))
     }
+
     useEffect(() => {
         if (error) {
             Toast.show({
@@ -44,7 +46,7 @@ const Register = ({ navigation, route }) => {
                 type: 'success',
                 text1: "Register Successfully",
             });
-            navigation.navigate("Login")
+            navigation.navigate("Profile")
         }
     }, [error, isAuthenticated]);
 

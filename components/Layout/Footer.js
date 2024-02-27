@@ -23,7 +23,7 @@ const Footer = () => {
         if (isAuthenticated === false) {
             navigation.navigate("Login")
         }
-    }, [isAuthenticated,navigation])
+    }, [isAuthenticated, navigation])
 
     return (
         <View style={{
@@ -35,13 +35,15 @@ const Footer = () => {
         }}>
             <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                 <Icon name='home' size={30} color="#fff" />
-
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
                 <Icon name='user' size={30} color="#fff" />
             </TouchableOpacity>
             <TouchableOpacity onPress={logoutUser}>
                 <Icon name='logout' size={30} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("chat")}>
+                <Icon name='message1' size={30} color="#fff" />
             </TouchableOpacity>
         </View>
     )
